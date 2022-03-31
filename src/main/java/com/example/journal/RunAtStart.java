@@ -40,11 +40,16 @@ public class RunAtStart {
 		
 		classyearRepository.save(y1);
 		
-		Student s1 = new Student("aaa", "bbb", "111","aaa", c2.getId(),y1.getId());
+		Student s1 = new Student("aaa", "bbb", "111","aaa", c2.getId(), y1.getId());
 		
 		studentRepository.save(s1);
 		
+
 		System.out.print(s1);
+		System.out.print(c2 + "\n");
+		System.out.print(y1);
+		
+		
 		
 		
 	}

@@ -33,6 +33,18 @@ public class Caretaker {
 	
 	
 	
+	public Set<Student> getStudents() {
+		return students;
+	}
+
+
+
+	public void setStudents(Set<Student> students) {
+		this.students = students;
+	}
+
+
+
 	public Caretaker() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -115,7 +127,7 @@ public class Caretaker {
 	@Override
 	public String toString() {
 		return "Caretaker [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email +  "]";
+				+ ", email=" + email + " students=" + students+"]";
 	}
 	
 	

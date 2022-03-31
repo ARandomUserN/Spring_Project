@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -20,7 +21,9 @@ public class Student {
 	private String phone;
 	private String email;
 	
+	@JoinColumn(name="caretaker_id", nullable=false)
 	private long caretakerId;
+	
 	private long classyearId;
 	
 //	@OneToMany(mappedBy = "mk_studentId", cascade = CascadeType.ALL, orphanRemoval = true)	
