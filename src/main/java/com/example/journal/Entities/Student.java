@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -18,10 +19,8 @@ public class Student {
 	private String lastName;
 	private String phone;
 	private String email;
-	private String pwd;
 	
 	private long caretakerId;
-
 	private long classyearId;
 	
 //	@OneToMany(mappedBy = "mk_studentId", cascade = CascadeType.ALL, orphanRemoval = true)	
@@ -40,26 +39,15 @@ public class Student {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Student(String firstName, String lastName, String phone, String email, String pwd, long caretakerId,
+	public Student(String firstName, String lastName, String phone, String email, long caretakerId,
 			long classyearId) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
 		this.email = email;
-		this.pwd = pwd;
 		this.caretakerId = caretakerId;
 		this.classyearId = classyearId;
-	}
-	
-	public Student(String firstName, String lastName, String phone, String email, String pwd, long caretakerId) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.phone = phone;
-		this.email = email;
-		this.pwd = pwd;
-		this.caretakerId = caretakerId;
 	}
 	
 	
@@ -111,19 +99,6 @@ public class Student {
 	}
 
 
-
-	public String getPwd() {
-		return pwd;
-	}
-
-
-
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-
-
-
 	public long getCaretakerId() {
 		return caretakerId;
 	}
@@ -157,7 +132,7 @@ public class Student {
 	@Override
 	public String toString() {
 		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + ", pwd=" + pwd + ", caretakerId=" + caretakerId + ", classyearId=" + classyearId
+				+ ", email=" + email + ", caretakerId=" + caretakerId + ", classyearId=" + classyearId
 				+ "]\n";
 	}
 	

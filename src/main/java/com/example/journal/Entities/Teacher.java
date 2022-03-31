@@ -2,12 +2,16 @@ package com.example.journal.Entities;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "teacher")
 public class Teacher {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,23 +20,20 @@ public class Teacher {
 	private String lastName;
 	private String phone;
 	private String email;
-	private String pwd;
-	
-//	Set<ClassSubject> classes;
-//	private int level;
+	@OneToMany(mappedBy = "teacherId", cascade = CascadeType.ALL, orphanRemoval = true)
+	Set<Subject> subjects;
 	
 	public Teacher() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Teacher(String firstName, String lastName, String phone, String email, String pwd) {
+	public Teacher(String firstName, String lastName, String phone, String email) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
 		this.email = email;
-		this.pwd = pwd;
 	}
 
 	public String getFirstName() {
@@ -67,14 +68,6 @@ public class Teacher {
 		this.email = email;
 	}
 
-	public String getPwd() {
-		return pwd;
-	}
-
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-
 	public long getId() {
 		return id;
 	}
@@ -82,7 +75,7 @@ public class Teacher {
 	@Override
 	public String toString() {
 		return "Teacher [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + ", pwd=" + pwd + "]";
+				+ ", email=" + email + "]";
 	}
 	
 	

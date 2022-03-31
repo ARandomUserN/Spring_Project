@@ -28,7 +28,6 @@ public class Caretaker {
 	private String lastName;
 	private String phone;
 	private String email;
-	private String pwd;
 	@OneToMany(mappedBy = "caretakerId", cascade = CascadeType.ALL, orphanRemoval = true)	
 	Set<Student> students;
 	
@@ -41,13 +40,12 @@ public class Caretaker {
 
 
 
-	public Caretaker(String firstName, String lastName, String phone, String email, String pwd) {
+	public Caretaker(String firstName, String lastName, String phone, String email) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
 		this.email = email;
-		this.pwd = pwd;
 	}
 
 	
@@ -112,22 +110,12 @@ public class Caretaker {
 
 
 
-	public String getPwd() {
-		return pwd;
-	}
-
-
-
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-
 
 
 	@Override
 	public String toString() {
 		return "Caretaker [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + ", pwd=" + pwd + "]";
+				+ ", email=" + email +  "]";
 	}
 	
 	
