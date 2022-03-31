@@ -23,6 +23,8 @@ public class Teacher {
 	@OneToMany(mappedBy = "teacherId", cascade = CascadeType.ALL, orphanRemoval = true)
 	Set<Subject> subjects;
 	
+	
+	
 	public Teacher() {
 		super();
 		// TODO Auto-generated constructor stub

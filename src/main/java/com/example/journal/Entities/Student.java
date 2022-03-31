@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -24,10 +23,11 @@ public class Student {
 	@JoinColumn(name="caretaker_id", nullable=false)
 	private long caretakerId;
 	
+	@JoinColumn(name="classyear_id", nullable=false)
 	private long classyearId;
 	
-//	@OneToMany(mappedBy = "mk_studentId", cascade = CascadeType.ALL, orphanRemoval = true)	
-//	Set<Mark> marks;
+	@OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL, orphanRemoval = true)	
+	Set<Mark> marks;
 //	
 //	@OneToMany(mappedBy = "pr_studentId", cascade = CascadeType.ALL, orphanRemoval = true)	
 //	Set<PresenceJournal> presence;

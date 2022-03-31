@@ -2,10 +2,12 @@ package com.example.journal.Entities;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +20,9 @@ public class Subject {
 	
 	private long teacherId;
 	private long classyearId;
+	
+	@OneToMany(mappedBy = "subjectId", cascade = CascadeType.ALL, orphanRemoval = true)	
+	Set<Mark> marks;
 	
 	
 	public Subject(String name, long teacherId, long classyearId) {
