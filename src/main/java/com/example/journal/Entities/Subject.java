@@ -24,6 +24,9 @@ public class Subject {
 	@OneToMany(mappedBy = "subjectId", cascade = CascadeType.ALL, orphanRemoval = true)	
 	Set<Mark> marks;
 	
+	@OneToMany(mappedBy = "subjectId", cascade = CascadeType.ALL, orphanRemoval = true)	
+	Set<Remarks> remarks;
+	
 	
 	public Subject(String name, long teacherId, long classyearId) {
 		super();
