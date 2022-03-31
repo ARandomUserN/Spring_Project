@@ -8,12 +8,14 @@ import org.springframework.stereotype.Component;
 import com.example.journal.Entities.Caretaker;
 import com.example.journal.Entities.Classyear;
 import com.example.journal.Entities.Mark;
+import com.example.journal.Entities.Remark;
 import com.example.journal.Entities.Student;
 import com.example.journal.Entities.Subject;
 import com.example.journal.Entities.Teacher;
 import com.example.journal.Repositories.CaretakerRepository;
 import com.example.journal.Repositories.ClassyearRepository;
 import com.example.journal.Repositories.MarkRepository;
+import com.example.journal.Repositories.RemarksRepository;
 import com.example.journal.Repositories.StudentRepository;
 import com.example.journal.Repositories.SubjectRepository;
 import com.example.journal.Repositories.TeacherRepository;
@@ -26,12 +28,13 @@ public class RunAtStart {
 	private final MarkRepository markRepository;
 	private final TeacherRepository teacherRepository;
 	private final SubjectRepository subjectRepository;
+	private final RemarksRepository remarksRepository;
 	
 	
 	@Autowired
 	public RunAtStart(CaretakerRepository caretakerRepository, StudentRepository studentRepository,
 			ClassyearRepository classyearRepository, MarkRepository markRepository, TeacherRepository teacherRepository,
-			SubjectRepository subjectRepository) {
+			SubjectRepository subjectRepository, RemarksRepository remarksRepository) {
 		super();
 		this.caretakerRepository = caretakerRepository;
 		this.studentRepository = studentRepository;
@@ -39,6 +42,7 @@ public class RunAtStart {
 		this.markRepository = markRepository;
 		this.teacherRepository = teacherRepository;
 		this.subjectRepository = subjectRepository;
+		this.remarksRepository = remarksRepository;
 	}
 
 	
@@ -95,7 +99,9 @@ public class RunAtStart {
 		markRepository.save(m6);
 		markRepository.save(m7);
 		
+		Remark r1 = new Remark("BBBBBBB", su2.getId(), s1.getId());
 		
+		remarksRepository.save(r1);
 		
 		
 		

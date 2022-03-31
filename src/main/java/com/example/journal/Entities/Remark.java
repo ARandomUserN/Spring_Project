@@ -6,14 +6,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Remarks {
+public class Remark {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String description;
 	private long subjectId;
 	private long studentId;
-	public Remarks(String description, long subjectId, long studentId) {
+	public Remark(String description, long subjectId, long studentId) {
 		super();
 		this.description = description;
 		this.subjectId = subjectId;

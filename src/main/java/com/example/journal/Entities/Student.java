@@ -33,7 +33,7 @@ public class Student {
 //	Set<PresenceJournal> presence;
 //	
 	@OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL, orphanRemoval = true)	
-	Set<Remarks> remarks;
+	Set<Remark> remark;
 
 	
 	

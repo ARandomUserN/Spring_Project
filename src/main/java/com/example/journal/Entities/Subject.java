@@ -25,7 +25,7 @@ public class Subject {
 	Set<Mark> marks;
 	
 	@OneToMany(mappedBy = "subjectId", cascade = CascadeType.ALL, orphanRemoval = true)	
-	Set<Remarks> remarks;
+	Set<Remark> remark;
 	
 	
 	public Subject(String name, long teacherId, long classyearId) {
