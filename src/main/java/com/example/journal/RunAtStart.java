@@ -30,8 +30,8 @@ public class RunAtStart {
 	
 	@PostConstruct
 	public void runAtStart() {
-		Caretaker c1 = new Caretaker("aaa", "bbb", "111");
-		Caretaker c2 = new Caretaker("bbb", "ccc", "222");
+		Caretaker c1 = new Caretaker("aaa", "bbb", "111","aaa");
+		Caretaker c2 = new Caretaker("bbb", "ccc", "222","bbb");
 		
 		caretakerRepository.save(c1);
 		caretakerRepository.save(c2);
@@ -40,7 +40,7 @@ public class RunAtStart {
 		
 		classyearRepository.save(y1);
 		
-		Student s1 = new Student("aaa", "bbb", "111", c2.getId(),y1.getId());
+		Student s1 = new Student("aaa", "bbb", "111","aaa", c2.getId(),y1.getId());
 		
 		studentRepository.save(s1);
 		
