@@ -20,6 +20,9 @@ public class Classyear {
 	@OneToMany(mappedBy = "classyearId",cascade = CascadeType.ALL, orphanRemoval = true)
 	Set<Student> students;
 	
+	@OneToMany(mappedBy = "classyearId",cascade = CascadeType.ALL, orphanRemoval = true)
+	Set<Subject> subjects;
+	
 	public Classyear() {
 		super();
 		// TODO Auto-generated constructor stub

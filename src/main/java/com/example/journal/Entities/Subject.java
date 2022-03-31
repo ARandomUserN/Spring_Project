@@ -17,12 +17,14 @@ public class Subject {
 	private String name;
 	
 	private long teacherId;
+	private long classyearId;
 	
 	
-	public Subject(String name, long teacherId) {
+	public Subject(String name, long teacherId, long classyearId) {
 		super();
 		this.name = name;
 		this.teacherId = teacherId;
+		this.classyearId = classyearId;
 	}
 	public String getName() {
 		return name;
@@ -39,10 +41,18 @@ public class Subject {
 	public long getId() {
 		return id;
 	}
+	public long getClassyearId() {
+		return classyearId;
+	}
+	public void setClassyearId(long classyearId) {
+		this.classyearId = classyearId;
+	}
+	
 	
 	@Override
 	public String toString() {
-		return "Subject [id=" + id + ", name=" + name + ", teacher=" + teacherId + "]";
+		return "Subject [id=" + id + ", name=" + name + ", teacherId=" + teacherId + ", classyearId=" + classyearId
+				+ "]";
 	}
 	
 	
