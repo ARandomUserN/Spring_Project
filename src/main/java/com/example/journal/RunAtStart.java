@@ -59,9 +59,9 @@ public class RunAtStart {
 		classyearRepository.save(y1);
 		
 		Student s1 = new Student("aaa", "bbb", "111","aaa", c2.getId(), y1.getId());
-		Student s2 = new Student("aaa", "bbb", "111","aaa", c1.getId(), y1.getId());
-		Student s3 = new Student("aaa", "bbb", "111","aaa", c1.getId(), y1.getId());
-		Student s4 = new Student("aaa", "bbb", "111","aaa", c2.getId(), y1.getId());
+		Student s2 = new Student("bbb", "bbb", "111","aaa", c1.getId(), y1.getId());
+		Student s3 = new Student("ccc", "bbb", "111","aaa", c1.getId(), y1.getId());
+		Student s4 = new Student("ddd", "bbb", "111","aaa", c2.getId(), y1.getId());
 		
 		studentRepository.save(s1);		
 		studentRepository.save(s2);		
