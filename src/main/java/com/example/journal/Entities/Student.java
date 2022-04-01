@@ -31,7 +31,8 @@ public class Student {
 //	@OneToMany(mappedBy = "pr_studentId", cascade = CascadeType.ALL, orphanRemoval = true)	
 //	Set<PresenceJournal> presence;
 //	
-	@OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL, orphanRemoval = true)	
+	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)	
+	@JoinColumn(name="studentId")
 	Set<Remark> remark;
 
 	
