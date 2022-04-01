@@ -12,13 +12,13 @@ import com.example.journal.Entities.Remark;
 import com.example.journal.Entities.Student;
 import com.example.journal.Entities.Subject;
 import com.example.journal.Entities.Teacher;
-import com.example.journal.Repositories.CaretakerRepository;
-import com.example.journal.Repositories.ClassyearRepository;
-import com.example.journal.Repositories.MarkRepository;
-import com.example.journal.Repositories.RemarksRepository;
-import com.example.journal.Repositories.StudentRepository;
-import com.example.journal.Repositories.SubjectRepository;
-import com.example.journal.Repositories.TeacherRepository;
+import com.example.journal.repositories.CaretakerRepository;
+import com.example.journal.repositories.ClassyearRepository;
+import com.example.journal.repositories.MarkRepository;
+import com.example.journal.repositories.RemarksRepository;
+import com.example.journal.repositories.StudentRepository;
+import com.example.journal.repositories.SubjectRepository;
+import com.example.journal.repositories.TeacherRepository;
 
 @Component
 public class RunAtStart {

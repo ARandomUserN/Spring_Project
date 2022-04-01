@@ -129,7 +129,7 @@ public class Caretaker {
 	@Override
 	public String toString() {
 		return "Caretaker [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + " students=" + students+"]";
+				+ ", email=" + email + "]";
 	}
 	
 	
