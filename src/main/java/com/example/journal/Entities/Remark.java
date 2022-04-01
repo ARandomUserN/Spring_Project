@@ -13,6 +13,7 @@ public class Remark {
 	private String description;
 	private long subjectId;
 	private long studentId;
+	
 	public Remark(String description, long subjectId, long studentId) {
 		super();
 		this.description = description;

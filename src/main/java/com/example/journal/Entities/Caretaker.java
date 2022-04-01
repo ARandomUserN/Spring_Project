@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 
@@ -28,7 +29,8 @@ public class Caretaker {
 	private String lastName;
 	private String phone;
 	private String email;
-	@OneToMany(mappedBy = "caretakerId", cascade = CascadeType.ALL, orphanRemoval = true)	
+	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name="caretakerId")
 	Set<Student> students;
 	
 	
