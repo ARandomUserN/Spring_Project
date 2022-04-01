@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,10 +22,12 @@ public class Subject {
 	private long teacherId;
 	private long classyearId;
 	
-	@OneToMany(mappedBy = "subjectId", cascade = CascadeType.ALL, orphanRemoval = true)	
+	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)	
+	@JoinColumn(name = "subjectId")
 	Set<Mark> marks;
 	
-	@OneToMany(mappedBy = "subjectId", cascade = CascadeType.ALL, orphanRemoval = true)	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)	
+	@JoinColumn(name = "subjectId")
 	Set<Remark> remark;
 	
 	
