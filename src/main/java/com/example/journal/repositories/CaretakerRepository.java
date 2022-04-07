@@ -1,4 +1,4 @@
-package com.example.journal.Repositories;
+package com.example.journal.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

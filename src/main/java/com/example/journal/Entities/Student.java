@@ -20,19 +20,19 @@ public class Student {
 	private String phone;
 	private String email;
 	
-	@JoinColumn(name="caretaker_id", nullable=false)
 	private long caretakerId;
 	
-	@JoinColumn(name="classyear_id", nullable=false)
 	private long classyearId;
 	
-	@OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL, orphanRemoval = true)	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)	
+	@JoinColumn(name="studentId")
 	Set<Mark> marks;
 //	
 //	@OneToMany(mappedBy = "pr_studentId", cascade = CascadeType.ALL, orphanRemoval = true)	
 //	Set<PresenceJournal> presence;
 //	
-	@OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL, orphanRemoval = true)	
+	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)	
+	@JoinColumn(name="studentId")
 	Set<Remark> remark;
 
 	
