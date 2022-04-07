@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,8 +21,9 @@ public class Teacher {
 	private String lastName;
 	private String phone;
 	private String email;
-	@OneToMany(mappedBy = "teacherId", cascade = CascadeType.ALL, orphanRemoval = true)
-	Set<Subject> subjects;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name="teacherId")
+	Set<CTSMtM> subjectsClassyear;
 	
 	
 	
