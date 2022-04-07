@@ -23,7 +23,7 @@ public class Teacher {
 	private String email;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="teacherId")
-	Set<Subject> subjects;
+	Set<CTSMtM> subjectsClassyear;
 	
 	
 	
