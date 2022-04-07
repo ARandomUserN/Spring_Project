@@ -19,8 +19,9 @@ public class Subject {
 	private long id;
 	private String name;
 	
-	private long teacherId;
-	private long classyearId;
+	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)	
+	@JoinColumn(name = "subjectId")
+	Set<CTSMtM> classyearTeacher;
 	
 	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)	
 	@JoinColumn(name = "subjectId")
@@ -31,20 +32,12 @@ public class Subject {
 	Set<Remark> remark;
 	
 	
-	public Subject(String name, long teacherId, long classyearId) {
+	public Subject(String name) {
 		super();
 		this.name = name;
-		this.teacherId = teacherId;
-		this.classyearId = classyearId;
 	}
 	public String getName() {
 		return name;
-	}
-	public long getTeacherId() {
-		return teacherId;
-	}
-	public void setTeacherId(long teacherId) {
-		this.teacherId = teacherId;
 	}
 	public void setName(String name) {
 		this.name = name;
@@ -52,17 +45,10 @@ public class Subject {
 	public long getId() {
 		return id;
 	}
-	public long getClassyearId() {
-		return classyearId;
-	}
-	public void setClassyearId(long classyearId) {
-		this.classyearId = classyearId;
-	}
-	
 	
 	@Override
 	public String toString() {
-		return "Subject [id=" + id + ", name=" + name + ", teacherId=" + teacherId + ", classyearId=" + classyearId
+		return "Subject [id=" + id + ", name=" + name 
 				+ "]";
 	}
 	

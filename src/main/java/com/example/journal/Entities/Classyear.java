@@ -24,6 +24,10 @@ public class Classyear {
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="classyearId")
+	Set<CTSMtM> teacherSubject;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name="classyearId")
 	Set<Subject> subjects;
 	
 	public Classyear() {
