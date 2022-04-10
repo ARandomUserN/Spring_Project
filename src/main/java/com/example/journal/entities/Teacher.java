@@ -1,4 +1,4 @@
-package com.example.journal.Entities;
+package com.example.journal.entities;
 
 import java.util.Set;
 
@@ -9,9 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
-public class Student {
+@Table(name = "teacher")
+public class Teacher {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -19,33 +21,24 @@ public class Student {
 	private String lastName;
 	private String phone;
 	private String email;
-	private long caretakerId;
-	private long classyearId;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)	
-	@JoinColumn(name="studentId")
-	Set<Mark> marks;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name="teacherId")
+	Set<CTSMtM> subjectsClassyear;
 	
-	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)	
-	@JoinColumn(name="studentId")
-	Set<Remark> remark;
-
-	public Student() {
+	public Teacher() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public Student(String firstName, String lastName, String phone, String email, long caretakerId,
-			long classyearId) {
+	
+	public Teacher(String firstName, String lastName, String phone, String email) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
 		this.email = email;
-		this.caretakerId = caretakerId;
-		this.classyearId = classyearId;
 	}
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -78,30 +71,13 @@ public class Student {
 		this.email = email;
 	}
 
-	public long getCaretakerId() {
-		return caretakerId;
-	}
-
-	public void setCaretakerId(long caretakerId) {
-		this.caretakerId = caretakerId;
-	}
-
-	public long getClassyearId() {
-		return classyearId;
-	}
-
-	public void setClassyearId(long classyearId) {
-		this.classyearId = classyearId;
-	}
-
 	public long getId() {
 		return id;
 	}
 
 	@Override
 	public String toString() {
-		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + ", caretakerId=" + caretakerId + ", classyearId=" + classyearId
-				+ "]\n";
+		return "Teacher [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
+				+ ", email=" + email + "]";
 	}
 }
