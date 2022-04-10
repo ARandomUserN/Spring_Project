@@ -1,4 +1,4 @@
-package com.example.journal.Entities;
+package com.example.journal.entities;
 
 import java.util.Set;
 
