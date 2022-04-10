@@ -21,11 +21,10 @@ public class Teacher {
 	private String lastName;
 	private String phone;
 	private String email;
+	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="teacherId")
 	Set<CTSMtM> subjectsClassyear;
-	
-	
 	
 	public Teacher() {
 		super();
@@ -81,9 +80,4 @@ public class Teacher {
 		return "Teacher [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
 				+ ", email=" + email + "]";
 	}
-	
-	
-	
-	
-	
 }

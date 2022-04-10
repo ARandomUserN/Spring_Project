@@ -21,6 +21,11 @@ public class CTSMtM {
 	private long subjectId;
 	private long teacherId;
 	
+	public CTSMtM() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public CTSMtM(long classyearId, long subjectId, long teacherId) {
 		super();
 		this.classyearId = classyearId;
@@ -61,10 +66,4 @@ public class CTSMtM {
 		return "CTSMtM [id=" + id + ", classyearId=" + classyearId + ", subjectId=" + subjectId + ", teacherId="
 				+ teacherId + "]";
 	}
-	
-	
-	
-	
-	
-
 }

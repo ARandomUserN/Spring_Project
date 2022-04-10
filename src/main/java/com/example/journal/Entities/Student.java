@@ -19,24 +19,17 @@ public class Student {
 	private String lastName;
 	private String phone;
 	private String email;
-	
 	private long caretakerId;
-	
 	private long classyearId;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)	
 	@JoinColumn(name="studentId")
 	Set<Mark> marks;
-//	
-//	@OneToMany(mappedBy = "pr_studentId", cascade = CascadeType.ALL, orphanRemoval = true)	
-//	Set<PresenceJournal> presence;
-//	
+	
 	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)	
 	@JoinColumn(name="studentId")
 	Set<Remark> remark;
 
-	
-	
 	public Student() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -53,84 +46,57 @@ public class Student {
 		this.classyearId = classyearId;
 	}
 	
-	
-
 	public String getFirstName() {
 		return firstName;
 	}
-
-
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-
-
 	public String getLastName() {
 		return lastName;
 	}
-
-
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-
-
 	public String getPhone() {
 		return phone;
 	}
-
-
 
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-
-
 	public String getEmail() {
 		return email;
 	}
-
-
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-
 	public long getCaretakerId() {
 		return caretakerId;
 	}
-
-
 
 	public void setCaretakerId(long caretakerId) {
 		this.caretakerId = caretakerId;
 	}
 
-
-
 	public long getClassyearId() {
 		return classyearId;
 	}
-
-
 
 	public void setClassyearId(long classyearId) {
 		this.classyearId = classyearId;
 	}
 
-
-
 	public long getId() {
 		return id;
 	}
-
-
 
 	@Override
 	public String toString() {
@@ -138,9 +104,4 @@ public class Student {
 				+ ", email=" + email + ", caretakerId=" + caretakerId + ", classyearId=" + classyearId
 				+ "]\n";
 	}
-	
-	
-	
-	
-	
 }

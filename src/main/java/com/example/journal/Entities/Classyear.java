@@ -26,10 +26,6 @@ public class Classyear {
 	@JoinColumn(name="classyearId")
 	Set<CTSMtM> teacherSubject;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name="classyearId")
-	Set<Subject> subjects;
-	
 	public Classyear() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -65,8 +61,4 @@ public class Classyear {
 	public String toString() {
 		return "Classyear [id=" + id + ", year=" + year + ", name=" + name + "]\n";
 	}
-	
-	
-	
-	
 }
