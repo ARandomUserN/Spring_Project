@@ -7,14 +7,14 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.journal.Entities.CTSMtM;
-import com.example.journal.Entities.Caretaker;
-import com.example.journal.Entities.Classyear;
-import com.example.journal.Entities.Mark;
-import com.example.journal.Entities.Remark;
-import com.example.journal.Entities.Student;
-import com.example.journal.Entities.Subject;
-import com.example.journal.Entities.Teacher;
+import com.example.journal.entities.CTSMtM;
+import com.example.journal.entities.Caretaker;
+import com.example.journal.entities.Classyear;
+import com.example.journal.entities.Mark;
+import com.example.journal.entities.Remark;
+import com.example.journal.entities.Student;
+import com.example.journal.entities.Subject;
+import com.example.journal.entities.Teacher;
 import com.example.journal.repositories.CTSMtMRepository;
 import com.example.journal.repositories.CaretakerRepository;
 import com.example.journal.repositories.ClassyearRepository;
@@ -129,11 +129,5 @@ public class RunAtStart {
 		for(Student sss: ls) {
 			System.out.println(sss.toString());
 		}
-		
 	}
-
-
-	
-
-	
 }
