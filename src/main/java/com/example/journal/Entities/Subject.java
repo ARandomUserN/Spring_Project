@@ -31,17 +31,24 @@ public class Subject {
 	@JoinColumn(name = "subjectId")
 	Set<Remark> remark;
 	
+	public Subject() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	public Subject(String name) {
 		super();
 		this.name = name;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public long getId() {
 		return id;
 	}
@@ -51,7 +58,4 @@ public class Subject {
 		return "Subject [id=" + id + ", name=" + name 
 				+ "]";
 	}
-	
-	
-	
 }
