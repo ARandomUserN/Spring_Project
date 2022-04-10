@@ -1,5 +1,7 @@
 package com.example.journal;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,7 +125,10 @@ public class RunAtStart {
 		
 		remarksRepository.save(r1);
 		
-		
+		List<Student> ls = studentRepository.findAllByCaretaker((long) 1);
+		for(Student sss: ls) {
+			System.out.println(sss.toString());
+		}
 		
 	}
 
