@@ -54,7 +54,7 @@ public class RunAtStart {
 	
 	@PostConstruct
 	public void runAtStart() {
-		Caretaker c1 = new Caretaker("aaa", "bbb", "111","aaa");
+		Caretaker c1 = new Caretaker("aaaa", "bbb", "111","aaa");
 		Caretaker c2 = new Caretaker("bbb", "ccc", "222","bbb");
 		
 		caretakerRepository.save(c1);
