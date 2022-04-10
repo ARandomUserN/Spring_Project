@@ -30,8 +30,8 @@ public class StudentManager {
         return studentRepository.findAll();
     }
 
-    public Student save(Student employee) {
-        return studentRepository.save(employee);
+    public Student save(Student student) {
+        return studentRepository.save(student);
     }
 
     public void deleteById(Long id) {
