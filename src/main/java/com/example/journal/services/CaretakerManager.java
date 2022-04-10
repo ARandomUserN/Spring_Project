@@ -14,34 +14,34 @@ import com.example.journal.repositories.CaretakerRepository;
 
 public class CaretakerManager {
 
-    private final CaretakerRepository caretakerRepository;
+	private final CaretakerRepository caretakerRepository;
 
-    @Autowired
-    public CaretakerManager(CaretakerRepository caretakerRepository) {
-        super();
-        this.caretakerRepository = caretakerRepository;
-    }
+	@Autowired
+	public CaretakerManager(CaretakerRepository caretakerRepository) {
+		super();
+		this.caretakerRepository = caretakerRepository;
+	}
 
-    public Optional<Caretaker> findById(Long id) {
-        return caretakerRepository.findById(id);
-    }
+	public Optional<Caretaker> findById(Long id) {
+		return caretakerRepository.findById(id);
+	}
 
-    public Iterable<Caretaker> findAll() {
-        return caretakerRepository.findAll();
-    }
+	public Iterable<Caretaker> findAll() {
+		return caretakerRepository.findAll();
+	}
 
-    public Caretaker save(Caretaker employee) {
-        return caretakerRepository.save(employee);
-    }
+	public Caretaker save(Caretaker employee) {
+		return caretakerRepository.save(employee);
+	}
 
-    public void deleteById(Long id) {
-    	caretakerRepository.deleteById(id);
-    }
-    
-    @EventListener(ApplicationReadyEvent.class)
-    
-    public void runAtStart() { 
-    	
-    }
-    
+	public void deleteById(Long id) {
+		caretakerRepository.deleteById(id);
+	}
+
+	@EventListener(ApplicationReadyEvent.class)
+
+	public void runAtStart() { 
+
+	}
+
 }

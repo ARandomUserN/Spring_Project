@@ -20,42 +20,42 @@ import com.example.journal.services.CaretakerManager;
 @RequestMapping("/api/caretakers")
 public class CaretakerAPI {
 
-    private CaretakerManager caretakerManager;
+	private CaretakerManager caretakerManager;
 
-    @Autowired
-    public CaretakerAPI(CaretakerManager caretakerManager) {
-        super();
-        this.caretakerManager = caretakerManager;
-    }
+	@Autowired
+	public CaretakerAPI(CaretakerManager caretakerManager) {
+		super();
+		this.caretakerManager = caretakerManager;
+	}
 
 
-     @GetMapping("/all")
-     public Iterable<Caretaker> getAll() {
-        return caretakerManager.findAll();
-     }
-     
-     @GetMapping("/id")
-     public Optional<Caretaker> getById(@RequestParam Long index) {
-        return caretakerManager.findById(index);
-     }
-     @GetMapping(value = "/{caretakerId}")
-     public Optional<Caretaker> getId(@PathVariable("caretakerId") Long  caretakerId) {
-        return caretakerManager.findById(caretakerId);
-     }
-     @PostMapping("/save")
-     public Caretaker addEmployee(@RequestBody Caretaker caretaker) {
-        return caretakerManager.save(caretaker);
-     }
+	@GetMapping("/all")
+	public Iterable<Caretaker> getAll() {
+		return caretakerManager.findAll();
+	}
 
-     @PutMapping("/upd")
-     public Caretaker updateEmployee(@RequestBody Caretaker caretaker) {
-    	 return caretakerManager.save(caretaker);
-     }
+	@GetMapping("/id")
+	public Optional<Caretaker> getById(@RequestParam Long index) {
+		return caretakerManager.findById(index);
+	}
+	@GetMapping(value = "/{caretakerId}")
+	public Optional<Caretaker> getId(@PathVariable("caretakerId") Long  caretakerId) {
+		return caretakerManager.findById(caretakerId);
+	}
+	@PostMapping("/save")
+	public Caretaker addEmployee(@RequestBody Caretaker caretaker) {
+		return caretakerManager.save(caretaker);
+	}
 
-     @DeleteMapping("/del")
-     public void deleteEmployee(@RequestParam Long index) {
-    	 caretakerManager.deleteById(index);
-     }
+	@PutMapping("/upd")
+	public Caretaker updateEmployee(@RequestBody Caretaker caretaker) {
+		return caretakerManager.save(caretaker);
+	}
+
+	@DeleteMapping("/del")
+	public void deleteEmployee(@RequestParam Long index) {
+		caretakerManager.deleteById(index);
+	}
 
 
 

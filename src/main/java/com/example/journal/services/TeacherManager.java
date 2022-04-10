@@ -10,35 +10,35 @@ import com.example.journal.entities.Teacher;
 import com.example.journal.repositories.TeacherRepository;
 
 public class TeacherManager {
-	
-    private final TeacherRepository teacherRepository;
 
-    @Autowired
-    public TeacherManager(TeacherRepository teacherRepository) {
-        super();
-        this.teacherRepository = teacherRepository;
-    }
+	private final TeacherRepository teacherRepository;
 
-    public Optional<Teacher> findById(Long id) {
-        return teacherRepository.findById(id);
-    }
+	@Autowired
+	public TeacherManager(TeacherRepository teacherRepository) {
+		super();
+		this.teacherRepository = teacherRepository;
+	}
 
-    public Iterable<Teacher> findAll() {
-        return teacherRepository.findAll();
-    }
+	public Optional<Teacher> findById(Long id) {
+		return teacherRepository.findById(id);
+	}
 
-    public Teacher save(Teacher teacher) {
-        return teacherRepository.save(teacher);
-    }
+	public Iterable<Teacher> findAll() {
+		return teacherRepository.findAll();
+	}
 
-    public void deleteById(Long id) {
-    	teacherRepository.deleteById(id);
-    }
+	public Teacher save(Teacher teacher) {
+		return teacherRepository.save(teacher);
+	}
 
-    @EventListener(ApplicationReadyEvent.class)
+	public void deleteById(Long id) {
+		teacherRepository.deleteById(id);
+	}
 
-      public void runAtStart() { 
+	@EventListener(ApplicationReadyEvent.class)
 
-      }
+	public void runAtStart() { 
+
+	}
 
 }
