@@ -5,10 +5,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Service;
 
 import com.example.journal.entities.Teacher;
 import com.example.journal.repositories.TeacherRepository;
 
+
+@Service
 public class TeacherManager {
 
 	private final TeacherRepository teacherRepository;
