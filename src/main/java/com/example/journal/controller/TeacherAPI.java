@@ -41,6 +41,11 @@ public class TeacherAPI {
 	public Optional<Teacher> getId(@PathVariable("teacherId") Long  teacherId) {
 		return teacherManager.findById(teacherId);
 	}
+	
+	// TODO teacher/subject/classyear
+	
+	// TODO teacher/subject/classyear/editmarks(studentID)
+	
 	@PostMapping("/save")
 	public Teacher addTeacher(@RequestBody Teacher teacher) {
 		return teacherManager.save(teacher);
