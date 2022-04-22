@@ -43,17 +43,17 @@ public class CaretakerAPI {
 		return caretakerManager.findById(caretakerId);
 	}
 	@PostMapping("/save")
-	public Caretaker addEmployee(@RequestBody Caretaker caretaker) {
+	public Caretaker addCaretaker(@RequestBody Caretaker caretaker) {
 		return caretakerManager.save(caretaker);
 	}
 
 	@PutMapping("/upd")
-	public Caretaker updateEmployee(@RequestBody Caretaker caretaker) {
+	public Caretaker updateCaretaker(@RequestBody Caretaker caretaker) {
 		return caretakerManager.save(caretaker);
 	}
 
 	@DeleteMapping("/del")
-	public void deleteEmployee(@RequestParam Long index) {
+	public void deleteCaretaker(@RequestParam Long index) {
 		caretakerManager.deleteById(index);
 	}
 
