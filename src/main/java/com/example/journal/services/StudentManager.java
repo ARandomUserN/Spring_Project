@@ -7,7 +7,12 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import com.example.journal.dto.StudentDTO;
+import com.example.journal.entities.Caretaker;
+import com.example.journal.entities.Classyear;
 import com.example.journal.entities.Student;
+import com.example.journal.repositories.CaretakerRepository;
+import com.example.journal.repositories.ClassyearRepository;
 import com.example.journal.repositories.StudentRepository;
 
 @Service
@@ -15,15 +20,34 @@ import com.example.journal.repositories.StudentRepository;
 public class StudentManager {
 
 	private final StudentRepository studentRepository;
+	private final CaretakerRepository caretakerRepository;
+	private final ClassyearRepository classyearRepository;
 
 	@Autowired
-	public StudentManager(StudentRepository studentRepository) {
+	public StudentManager(StudentRepository studentRepository, CaretakerRepository caretakerRepository,
+			ClassyearRepository classyearRepository) {
 		super();
 		this.studentRepository = studentRepository;
+		this.caretakerRepository = caretakerRepository;
+		this.classyearRepository = classyearRepository;
+	}
+	
+	//DTO Mapper
+	public StudentDTO mapStudent(Student student, Caretaker caretaker, Classyear classyear) {
+		StudentDTO studentDTO = new StudentDTO(student.getId(), student.getFirstName(), student.getLastName(), 
+				student.getPhone(), student.getEmail(), 
+				caretaker.getFirstName(), caretaker.getLastName(), 
+				classyear.getYear(), classyear.getName());
+		return studentDTO;
 	}
 
-	public Optional<Student> findById(Long id) {
-		return studentRepository.findById(id);
+	public StudentDTO findById(Long id) {
+		Optional<Student> student = studentRepository.findById(id);
+		Optional<Caretaker> caretaker = caretakerRepository.findById(student.get().getCaretakerId());
+		Optional<Classyear> classyear = classyearRepository.findById(student.get().getClassyearId());
+		
+		StudentDTO studentDTO = mapStudent(student.get(), caretaker.get(), classyear.get());
+		return studentDTO;
 	}
 
 	public Iterable<Student> findAll() {

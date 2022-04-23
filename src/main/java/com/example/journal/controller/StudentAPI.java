@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.journal.dto.StudentDTO;
 import com.example.journal.entities.Student;
 import com.example.journal.services.StudentManager;
 
@@ -34,11 +35,11 @@ public class StudentAPI {
 	}
 	
 	@GetMapping("/id")
-	public Optional<Student> getById(@RequestParam Long index) {
+	public StudentDTO getById(@RequestParam Long index) {
 		return studentManager.findById(index);
 	}
 	@GetMapping(value = "/{studentId}")
-	public Optional<Student> getId(@PathVariable("studentId") Long  studentId) {
+	public StudentDTO getId(@PathVariable("studentId") Long  studentId) {
 		return studentManager.findById(studentId);
 	}
 	@PostMapping("/save")
