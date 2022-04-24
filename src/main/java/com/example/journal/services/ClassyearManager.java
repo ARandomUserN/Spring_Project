@@ -1,5 +1,6 @@
 package com.example.journal.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,12 @@ public class ClassyearManager {
 		return classyearRepository.findById(id);
 	}
 
-	public Iterable<Classyear> findAll() {
+	public List<Classyear> findAll() {
 		return classyearRepository.findAll();
+	}
+	
+	public List<Classyear> findAllBySubject(Long subjectId){
+		return classyearRepository.AllBySubject(subjectId);
 	}
 
 	public Classyear save(Classyear classyear) {

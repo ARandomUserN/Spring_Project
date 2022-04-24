@@ -1,5 +1,6 @@
 package com.example.journal.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class StudentAPI {
 	}
 	
 	@GetMapping("/all")
-	public Iterable<Student> getAll()
+	public List<StudentDTO> getAll()
 	{
 		return studentManager.findAll();
 	}
@@ -41,6 +42,14 @@ public class StudentAPI {
 	@GetMapping(value = "/{studentId}")
 	public StudentDTO getId(@PathVariable("studentId") Long  studentId) {
 		return studentManager.findById(studentId);
+	}
+	@GetMapping("/all/class/classyear")
+	public List<Student> getByClassyear(@RequestParam Long index) {
+		return studentManager.findAllByClass(index);
+	}
+	@GetMapping("/all/class/{classyearId}")
+	public List<Student> getClassyear(@PathVariable("classyearId") Long classyearId) {
+		return studentManager.findAllByClass(classyearId);
 	}
 	@PostMapping("/save")
 	public Student addStudent(@RequestBody Student student) {

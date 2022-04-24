@@ -1,5 +1,8 @@
 package com.example.journal.services;
 
+import java.io.Console;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,21 +40,38 @@ public class StudentManager {
 		StudentDTO studentDTO = new StudentDTO(student.getId(), student.getFirstName(), student.getLastName(), 
 				student.getPhone(), student.getEmail(), 
 				caretaker.getFirstName(), caretaker.getLastName(), 
-				classyear.getYear(), classyear.getName());
+				classyear.getYear(), classyear.getName(),classyear.getId());
 		return studentDTO;
 	}
+	
+	
 
 	public StudentDTO findById(Long id) {
 		Optional<Student> student = studentRepository.findById(id);
 		Optional<Caretaker> caretaker = caretakerRepository.findById(student.get().getCaretakerId());
 		Optional<Classyear> classyear = classyearRepository.findById(student.get().getClassyearId());
 		
-		StudentDTO studentDTO = mapStudent(student.get(), caretaker.get(), classyear.get());
-		return studentDTO;
+		StudentDTO result = mapStudent(student.get(), caretaker.get(), classyear.get());
+		return result;
 	}
 
-	public Iterable<Student> findAll() {
-		return studentRepository.findAll();
+	public List<StudentDTO> findAll() {
+		List<Object[]> students = studentRepository.findAll1();
+		
+		List<StudentDTO> result = new ArrayList<StudentDTO>();
+		
+		for(int i =0; i < students.size(); i++) {
+			StudentDTO x = mapStudent((Student)students.get(i)[0], (Caretaker)students.get(i)[1], (Classyear)students.get(i)[2]);
+			result.add(x);
+		}
+		
+		return result;
+	}
+	
+	public List<Student> findAllByClass(Long classyearId){
+		return studentRepository.findAllByClass(classyearId);
+		
+		
 	}
 
 	public Student save(Student student) {
@@ -67,16 +87,7 @@ public class StudentManager {
 	@EventListener(ApplicationReadyEvent.class)
 
 	public void runAtStart() { 
-		//    	Student s1 = new Student("Szymon", "Suchorab", "228857","228857@edu.p.lodz.pl", 0, 0);
-		//		Student s2 = new Student("bbb", "bbb", "111","aaa", 0, 0);
-		//		Student s3 = new Student("ccc", "bbb", "111","aaa", 0, 0);
-		//		Student s4 = new Student("ddd", "bbb", "111","aaa", 0, 0);
-		//		
-		//		
-		//		studentRepository.save(s1);		
-		//		studentRepository.save(s2);		
-		//		studentRepository.save(s3);		
-		//		studentRepository.save(s4);
+
 	}
 
     

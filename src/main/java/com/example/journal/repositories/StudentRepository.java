@@ -1,5 +1,6 @@
 package com.example.journal.repositories;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +15,12 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	@Query("SELECT s from Student s WHERE s.caretakerId=?1")
 	List<Student> findAllByCaretaker(Long id);
 	
+	
+	@Query("SELECT s,c,y FROM Student s, Caretaker c, Classyear y"
+			+ " WHERE s.caretakerId = c.id AND s.classyearId = y.id")
+	List<Object[]> findAll1();
+	
+	@Query("SELECT s from Student s WHERE s.classyearId=?1")
+	List<Student> findAllByClass(Long id);
 
 }
