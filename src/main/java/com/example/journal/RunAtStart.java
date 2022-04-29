@@ -95,16 +95,76 @@ public class RunAtStart {
 		classyearRepository.save(y6);
 		
 		
-		Student s1 = new Student("Szymon", "Suchor", "669666420","fajnygimail@interia.pl", c2.getId(), y1.getId());
+		Student s1 = new Student("Szymon", "Suchor", "669666420","fajnygimail@interia.pl", c1.getId(), y1.getId());
 		Student s2 = new Student("Jan", "Pawłowski", "521371337","misiaczek1337@gmail.com", c1.getId(), y1.getId());
 		Student s3 = new Student("Adrzej", "Bryś", "734512378","quietkid@wp.pl", c1.getId(), y1.getId());
 		Student s4 = new Student("Damian", "Rosomak", "678345786","rosomak@onet.pl", c2.getId(), y1.getId());
+		Student s5 = new Student("Alan", "Szczepański", "673249654", "AlanS@wp.pl", c2.getId(), y1.getId());
+		Student s6 = new Student("Dominik", "Czarnecki", "135562343", "DominikC@wp.pl", c3.getId(), y1.getId());
+		Student s7 = new Student("Lucjan", "Mazur", "724571254", "LucjanM@wp.pl", c3.getId(), y1.getId());
+		Student s8 = new Student("Dominik", "Tomaszewski", "715716948", "DominikT@wp.pl", c4.getId(), y2.getId());
+		Student s9 = new Student("Henryk", "Kowalczyk", "638575741", "HenrykK@wp.pl", c4.getId(), y2.getId());
+		Student s10 = new Student("Jarosław", "Bąk", "6357498754", "JaroslawB@wp.pl", c4.getId(), y2.getId());
+		Student s11 = new Student("Kordian", "Ostrowski", "321862184", "KordianO@wp.pl", c2.getId(), y2.getId());
+		Student s12 = new Student("Krystian", "Lewandowski", "460385021", "KrystianL@wp.pl", c5.getId(), y4.getId());
+		Student s13 = new Student("Juliusz", "Czerwiński", "204245075", "JuliuszC@wp.pl", c5.getId(), y2.getId());
+		Student s14 = new Student("Fryderyk", "Mazur", "988465198", "FryderykM@wp.pl", c6.getId(), y3.getId());
+		Student s15 = new Student("Emil", "Witkowski", "687548974", "EmilW@wp.pl", c6.getId(), y3.getId());
+		Student s16 = new Student("Mirosław", "Błaszczyk", "747984634", "MiroslawB@wp.pl", c6.getId(), y3.getId());
+		Student s17 = new Student("Klaudiusz", "Piotrowski", "687987894", "KlaudiuszP@wp.pl", c8.getId(), y3.getId());
+		Student s18 = new Student("Aleksander", "Duda", "98798102", "AleksanderD@wp.pl", c8.getId(), y4.getId());
+		Student s19 = new Student("Piotr", "Michalak", "654984654", "PiotrM@wp.pl", c8.getId(), y5.getId());
+		Student s20 = new Student("Faustyna", "Szulc", "673249654", "FaustynaS@wp.pl", c8.getId(), y5.getId());
+		Student s21 = new Student("Izabela", "Krupa", "135562343", "IzabelaK@wp.pl", c8.getId(), y5.getId());
+		Student s22 = new Student("Maria", "Laskowska", "724571254", "MariaL@wp.pl", c8.getId(), y6.getId());
+		Student s23 = new Student("Adrianna", "Piotrowska", "715716948", "AdriannaP@wp.pl", c9.getId(), y6.getId());
+		Student s24 = new Student("Danuta", "Mazur", "638575741", "DanutaM@wp.pl", c9.getId(), y6.getId());
+		Student s25 = new Student("Marysia", "Tomaszewska", "6357498754", "MarysiaT@wp.pl", c9.getId(), y5.getId());
+		Student s26 = new Student("Alana", "Mróz", "321862184", "AlanaM@wp.pl", c10.getId(), y4.getId());
+		Student s27 = new Student("Alicja", "Rutkowska", "460385021", "AlicjaR@wp.pl", c10.getId(), y3.getId());
+		Student s28 = new Student("Beata", "Andrzejewska", "204245075", "BeataA@wp.pl", c10.getId(), y6.getId());
+		Student s29 = new Student("Ada", "Malinowska", "988465198", "AdaM@wp.pl", c11.getId(), y4.getId());
+		Student s30 = new Student("Eliza", "Andrzejewska", "687548974", "ElizaA@wp.pl", c12.getId(), y1.getId());
+		Student s31 = new Student("Jola", "Duda", "747984634", "JolaD@wp.pl", c12.getId(), y5.getId());
+		Student s32 = new Student("Mirosława", "Górecka", "687987894", "MiroslawaG@wp.pl", c5.getId(), y5.getId());
+		Student s33 = new Student("Joanna", "Kalinowska", "98798102", "JoannaK@wp.pl", c2.getId(), y5.getId());
+		Student s34 = new Student("Andżelika", "Borkowska", "654984654", "AndzelikaB@wp.pl", c6.getId(), y3.getId());
+		
 		
 		studentRepository.save(s1);		
 		studentRepository.save(s2);		
 		studentRepository.save(s3);		
 		studentRepository.save(s4);
-		
+		studentRepository.save(s5);		
+		studentRepository.save(s6);		
+		studentRepository.save(s7);		
+		studentRepository.save(s8);
+		studentRepository.save(s9);		
+		studentRepository.save(s10);		
+		studentRepository.save(s11);		
+		studentRepository.save(s12);
+		studentRepository.save(s13);		
+		studentRepository.save(s14);		
+		studentRepository.save(s15);		
+		studentRepository.save(s16);
+		studentRepository.save(s17);		
+		studentRepository.save(s18);		
+		studentRepository.save(s19);		
+		studentRepository.save(s20);
+		studentRepository.save(s21);		
+		studentRepository.save(s22);		
+		studentRepository.save(s23);		
+		studentRepository.save(s24);
+		studentRepository.save(s25);		
+		studentRepository.save(s26);		
+		studentRepository.save(s27);		
+		studentRepository.save(s28);
+		studentRepository.save(s29);		
+		studentRepository.save(s30);		
+		studentRepository.save(s31);		
+		studentRepository.save(s32);
+		studentRepository.save(s33);		
+		studentRepository.save(s34);		
 		
 		Teacher t1 = new Teacher("Jowita", "Bąk", "645674346", "jowita.bak@o2.pl"); 					
 		Teacher t2 = new Teacher("Krzysztof", "Wojtasik", "567876541", "krzysztof.wojtasik@yahoo.com"); 
