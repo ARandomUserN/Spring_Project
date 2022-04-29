@@ -1,5 +1,6 @@
 package com.example.journal.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,26 @@ public class SubjectAPI {
 	public Iterable<Subject> getAll()
 	{
 		return subjectManager.findAll();
+	}
+	
+	@GetMapping("/all/classyear/classyearId")
+	public List<Subject> getByClassyear(@RequestParam Long index) {
+		return subjectManager.findByClassyear(index);
+	}
+	
+	@GetMapping(value = "/all/classyear/{classyearId}")
+	public List<Subject> getClassyear(@PathVariable("classyearId") Long classyearId) {
+		return subjectManager.findByClassyear(classyearId);
+	}
+	
+	@GetMapping("/all/teacher/teacherId")
+	public List<Subject> getByTeacher(@RequestParam Long index) {
+		return subjectManager.findByTeacher(index);
+	}
+	
+	@GetMapping(value = "/all/teacher/{teacherId}")
+	public List<Subject> getTeacher(@PathVariable("teacherId") Long teacherId) {
+		return subjectManager.findByTeacher(teacherId);
 	}
 	
 	@GetMapping("/id")
