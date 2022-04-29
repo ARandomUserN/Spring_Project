@@ -1,0 +1,42 @@
+api/caretakers
+DONE
+all, id care, save, update, delete
+
+TODO
+id student
+
+============================================
+api/students
+DONE
+all, id student, id class, save, update, delete
+
+============================================
+api/classyears
+DONE
+all, id subject, id class, save, update, delete
+
+============================================
+api/subjects
+DONE
+all, id class, id teacher, save, update, delete
+
+TODO
+id student
+
+============================================
+api/teachers
+DONE
+all, id teacher, save, update, delete
+
+TODO
+id subject, id class
+
+============================================
+api/marks
+TODO
+id student & id subject, save, update, delete
+
+============================================
+api remarks
+TODO
+id student & id subject, save, update, delete
