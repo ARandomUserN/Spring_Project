@@ -76,7 +76,7 @@ public class TeacherAPI {
 		return teacherManager.findStudentsByClassAndSubject(teacherId, subjectId, classyearId);
 	}
 	
-	@PostMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}/student/{studentId}")
+	@PostMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}")
 	public void postMark(@RequestBody Mark mark) {
 		teacherManager.addMark(mark);
 	}
