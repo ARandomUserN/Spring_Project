@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.journal.dto.StudentDTO;
+import com.example.journal.dto.StudentMarksDTO;
 import com.example.journal.entities.Student;
 import com.example.journal.services.StudentManager;
 
@@ -51,6 +52,16 @@ public class StudentAPI {
 	public List<Student> getClassyear(@PathVariable("classyearId") Long classyearId) {
 		return studentManager.findAllByClass(classyearId);
 	}
+	
+	@GetMapping("/id/marks")
+	public List<StudentMarksDTO> getStudentMarks(@RequestParam Long id){
+		return studentManager.findStudentMarks(id);
+	}
+	@GetMapping("/{studentId}/marks")
+	public List<StudentMarksDTO> getMarks(@PathVariable("studentId") Long id){
+		return studentManager.findStudentMarks(id);
+	}
+	
 	@PostMapping("/save")
 	public Student addStudent(@RequestBody Student student) {
 		return studentManager.save(student);

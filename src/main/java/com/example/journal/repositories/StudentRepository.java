@@ -24,6 +24,12 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	@Query("SELECT s from Student s WHERE s.classyearId=?1")
 	List<Student> findAllByClass(Long id);
 	
-	
+	@Query("SELECT st,su,mk,tc FROM Student st, Subject su, Mark mk, Teacher tc, CTSMtM c "
+			+ "WHERE st.id = ?1 "
+			+ "AND mk.studentId = st.id "
+			+ "AND mk.subjectId = c.subjectId "
+			+ "AND c.subjectId = su.id "
+			+ "AND tc.id = c.teacherId")
+	List<Object[]> findStudentMarks(Long studentId);
 
 }

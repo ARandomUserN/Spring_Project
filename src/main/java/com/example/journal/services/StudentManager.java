@@ -11,9 +11,13 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import com.example.journal.dto.StudentDTO;
+import com.example.journal.dto.StudentMarksDTO;
 import com.example.journal.entities.Caretaker;
 import com.example.journal.entities.Classyear;
+import com.example.journal.entities.Mark;
 import com.example.journal.entities.Student;
+import com.example.journal.entities.Subject;
+import com.example.journal.entities.Teacher;
 import com.example.journal.repositories.CaretakerRepository;
 import com.example.journal.repositories.ClassyearRepository;
 import com.example.journal.repositories.StudentRepository;
@@ -42,6 +46,25 @@ public class StudentManager {
 				caretaker.getFirstName(), caretaker.getLastName(), 
 				classyear.getYear(), classyear.getName(),classyear.getId());
 		return studentDTO;
+	}
+	
+	public StudentMarksDTO mapMarks(Student student, Subject subject, Mark mark, Teacher teacher) {
+		StudentMarksDTO dto = new StudentMarksDTO(student, subject.getId(), subject.getName(),
+				teacher.getId(), teacher.getFirstName(), teacher.getLastName(),
+				mark);
+		return dto;
+	}
+	
+	public List<StudentMarksDTO> findStudentMarks(Long studentId){
+		List<Object[]> list = studentRepository.findStudentMarks(studentId);
+		
+		List<StudentMarksDTO> markList = new ArrayList<StudentMarksDTO>();
+		for(int i = 0; i < list.size();i++)
+		{
+			markList.add(mapMarks((Student)list.get(i)[0], (Subject)list.get(i)[1], (Mark)list.get(i)[2], (Teacher)list.get(i)[3]));
+		}
+		
+		return markList;
 	}
 	
 	
