@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.journal.dto.StudentDTO;
 import com.example.journal.dto.StudentMarksDTO;
+import com.example.journal.dto.StudentRemarksDTO;
 import com.example.journal.entities.Caretaker;
 import com.example.journal.entities.Classyear;
 import com.example.journal.entities.Mark;
+import com.example.journal.entities.Remark;
 import com.example.journal.entities.Student;
 import com.example.journal.entities.Subject;
 import com.example.journal.entities.Teacher;
@@ -39,7 +41,7 @@ public class StudentManager {
 		this.classyearRepository = classyearRepository;
 	}
 	
-	//DTO Mapper
+	//DTO Mapper  
 	public StudentDTO mapStudent(Student student, Caretaker caretaker, Classyear classyear) {
 		StudentDTO studentDTO = new StudentDTO(student.getId(), student.getFirstName(), student.getLastName(), 
 				student.getPhone(), student.getEmail(), 
@@ -52,6 +54,13 @@ public class StudentManager {
 		StudentMarksDTO dto = new StudentMarksDTO(student, subject.getId(), subject.getName(),
 				teacher.getId(), teacher.getFirstName(), teacher.getLastName(),
 				mark);
+		return dto;
+	}
+	
+	public StudentRemarksDTO mapRemarks(Student student, Subject subject, Remark remark, Teacher teacher) {
+		StudentRemarksDTO dto = new StudentRemarksDTO(student, subject.getId(), subject.getName(),
+				teacher.getId(), teacher.getFirstName(), teacher.getLastName(),
+				remark);
 		return dto;
 	}
 	
@@ -68,6 +77,18 @@ public class StudentManager {
 		return markList;
 	}
 	
+	public List<StudentRemarksDTO> findStudentRemarks(Long studentId){
+		List<Object[]> list = studentRepository.findStudentRemarks(studentId);
+		
+		List<StudentRemarksDTO> markList = new ArrayList<StudentRemarksDTO>();
+		for(int i = 0; i < list.size();i++)
+		{
+			markList.add(mapRemarks((Student)list.get(i)[0], (Subject)list.get(i)[1], (Remark)list.get(i)[2], (Teacher)list.get(i)[3]));
+		}
+		
+		
+		return markList;
+	}
 	
 
 	public StudentDTO findById(Long id) {

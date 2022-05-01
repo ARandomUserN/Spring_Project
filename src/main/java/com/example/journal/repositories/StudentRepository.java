@@ -1,13 +1,11 @@
 package com.example.journal.repositories;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.example.journal.entities.Mark;
 import com.example.journal.entities.Student;
 
 @Repository
@@ -31,5 +29,14 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 			+ "AND c.subjectId = su.id "
 			+ "AND tc.id = c.teacherId")
 	List<Object[]> findStudentMarks(Long studentId);
+
+	
+	@Query("SELECT st,su,rm,tc FROM Student st, Subject su, Remark rm, Teacher tc, CTSMtM c "
+			+ "WHERE st.id = ?1 "
+			+ "AND rm.studentId = st.id "
+			+ "AND rm.subjectId = c.subjectId "
+			+ "AND c.subjectId = su.id "
+			+ "AND tc.id = c.teacherId")
+	List<Object[]> findStudentRemarks(Long studentId);
 
 }
