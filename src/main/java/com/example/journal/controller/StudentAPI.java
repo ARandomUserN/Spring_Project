@@ -1,5 +1,6 @@
 package com.example.journal.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.journal.dto.StudentDTO;
+import com.example.journal.dto.StudentMarksDTO;
+import com.example.journal.dto.StudentRemarksDTO;
 import com.example.journal.entities.Student;
 import com.example.journal.services.StudentManager;
 
@@ -28,19 +32,46 @@ public class StudentAPI {
 	}
 	
 	@GetMapping("/all")
-	public Iterable<Student> getAll()
+	public List<StudentDTO> getAll()
 	{
 		return studentManager.findAll();
 	}
 	
 	@GetMapping("/id")
-	public Optional<Student> getById(@RequestParam Long index) {
+	public StudentDTO getById(@RequestParam Long index) {
 		return studentManager.findById(index);
 	}
 	@GetMapping(value = "/{studentId}")
-	public Optional<Student> getId(@PathVariable("studentId") Long  studentId) {
+	public StudentDTO getId(@PathVariable("studentId") Long  studentId) {
 		return studentManager.findById(studentId);
 	}
+	@GetMapping("/all/class/classyear")
+	public List<Student> getByClassyear(@RequestParam Long index) {
+		return studentManager.findAllByClass(index);
+	}
+	@GetMapping("/all/class/{classyearId}")
+	public List<Student> getClassyear(@PathVariable("classyearId") Long classyearId) {
+		return studentManager.findAllByClass(classyearId);
+	}
+	
+	@GetMapping("/id/marks")
+	public List<StudentMarksDTO> getStudentMarks(@RequestParam Long id){
+		return studentManager.findStudentMarks(id);
+	}
+	@GetMapping("/{studentId}/marks")
+	public List<StudentMarksDTO> getMarks(@PathVariable("studentId") Long id){
+		return studentManager.findStudentMarks(id);
+	}
+	
+	@GetMapping("/id/remarks")
+	public List<StudentRemarksDTO> getStudentRemarks(@RequestParam Long id){
+		return studentManager.findStudentRemarks(id);
+	}
+	@GetMapping("/{studentId}/remarks")
+	public List<StudentRemarksDTO> getRemarks(@PathVariable("studentId") Long id){
+		return studentManager.findStudentRemarks(id);
+	}
+	
 	@PostMapping("/save")
 	public Student addStudent(@RequestBody Student student) {
 		return studentManager.save(student);

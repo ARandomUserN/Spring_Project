@@ -1,5 +1,6 @@
 package com.example.journal.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,18 @@ public class SubjectManager {
 		super();
 		this.subjectRepository = subjectRepository;
 	}
+	
+	
 
 	public Optional<Subject> findById(Long id) {
 		return subjectRepository.findById(id);
+	}
+	
+	public List<Subject> findByClassyear(Long classyearId){
+		return subjectRepository.findByClassyear(classyearId);
+	}
+	public List<Subject> findByTeacher(Long teacherId){
+		return subjectRepository.findByTeacher(teacherId);
 	}
 
 	public Iterable<Subject> findAll() {
