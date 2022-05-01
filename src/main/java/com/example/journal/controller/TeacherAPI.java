@@ -1,5 +1,6 @@
 package com.example.journal.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.journal.dto.SubjectClassStudentDTO;
+import com.example.journal.dto.SubjectDTO;
 import com.example.journal.entities.Teacher;
 import com.example.journal.services.TeacherManager;
 
@@ -42,7 +45,35 @@ public class TeacherAPI {
 		return teacherManager.findById(teacherId);
 	}
 	
-	// TODO teacher/subject/classyear
+	//List of taught subjects
+	@GetMapping("/id/subjects")
+	public List<SubjectDTO> getSubjectsById(@RequestParam Long teacherId){
+		return teacherManager.findSubjects(teacherId);
+	}
+	@GetMapping("/{teacherId}/subjects")
+	public List<SubjectDTO> getSubjects(@PathVariable("teacherId") Long teacherId){
+		return teacherManager.findSubjects(teacherId);
+	}
+	
+	// List of Classes filtered by subject
+	@GetMapping("/id/subjects/subId")
+	public List<SubjectDTO> getClassyearsBySubject(@RequestParam Long id, @RequestParam Long subId){
+		return teacherManager.findClassyearBySubject(id,subId);
+	}
+	@GetMapping("/{teacherId}/subjects/{subjectId}")
+	public List<SubjectDTO> getClassyears(@PathVariable("teacherId") Long teacherId,@PathVariable("subjectId") Long subjectId){
+		return teacherManager.findClassyearBySubject(teacherId,subjectId);
+	}
+
+	//Students in class + marks
+	@GetMapping("/id/subjects/subId/classes/classId")
+	public List<SubjectClassStudentDTO> getStudentsByClassyear(@RequestParam Long id, @RequestParam Long subId,@RequestParam Long classId){
+		return teacherManager.findStudentsByClassAndSubject(id, subId, classId);
+	}
+	@GetMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}")
+	public List<SubjectClassStudentDTO> getStudents(@PathVariable("teacherId") Long teacherId,@PathVariable("subjectId") Long subjectId,@PathVariable("classyearId") Long classyearId){
+		return teacherManager.findStudentsByClassAndSubject(teacherId, subjectId, classyearId);
+	}
 	
 	// TODO teacher/subject/classyear/editmarks(studentID)
 	

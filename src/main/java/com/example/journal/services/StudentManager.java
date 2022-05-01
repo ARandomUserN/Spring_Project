@@ -86,7 +86,6 @@ public class StudentManager {
 			markList.add(mapRemarks((Student)list.get(i)[0], (Subject)list.get(i)[1], (Remark)list.get(i)[2], (Teacher)list.get(i)[3]));
 		}
 		
-		
 		return markList;
 	}
 	
