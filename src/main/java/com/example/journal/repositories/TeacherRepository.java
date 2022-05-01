@@ -36,4 +36,6 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long>{
 			+ "AND su.id = c.subjectId "
 			+ "AND c.teacherId = tc.id")
 	List<Object[]> findStudentsByClassAndSubject(Long teacherId, Long subjectId, Long classyearId);
+	
+	
 }
