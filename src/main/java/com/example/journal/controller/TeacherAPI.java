@@ -19,6 +19,8 @@ import com.example.journal.dto.SubjectDTO;
 import com.example.journal.entities.Mark;
 import com.example.journal.entities.Teacher;
 import com.example.journal.services.TeacherManager;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
 @RequestMapping("/api/teachers")
@@ -76,12 +78,41 @@ public class TeacherAPI {
 		return teacherManager.findStudentsByClassAndSubject(teacherId, subjectId, classyearId);
 	}
 	
+	// JSON to send from client
+	//{
+	//    "value": double,
+	//    "weight": Long,
+	//    "studentId": Long, // id of existing student, available from the same endpoint
+	//    "type": string
+	//}
 	@PostMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}")
-	public void postMark(@RequestBody Mark mark) {
-		teacherManager.addMark(mark);
+	public void postMark(@RequestBody ObjectNode JSONNode, @PathVariable("subjectId") Long subjectId) {
+		Mark mk = new Mark(JSONNode.get("value").asDouble(), JSONNode.get("weight").asLong(), subjectId, JSONNode.get("studentId").asLong(), JSONNode.get("type").asText());
+		teacherManager.addMark(mk);
 	}
 	
-	// TODO teacher/subject/classyear/editmarks(studentID)
+	// JSON to send from client
+	//{
+	//    "markId": Long, // id of existing mark, available from the same endpoint
+	//}
+	@DeleteMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}")
+	public void deleteMark(@RequestBody ObjectNode JSONNode) {
+		teacherManager.deleteMarkById(JSONNode.get("markId").asLong());
+	}
+	
+	
+	// JSON to send from client
+	//{
+	//    "markId": Long, // id of existing mark, available from the same endpoint
+	//    "value": double,
+	//    "weight": Long,
+	//    "studentId": Long, // id of existing student, available from the same endpoint
+	//    "type": string
+	//}
+	@PutMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}")
+	public void putMark(@RequestBody ObjectNode JSONNode) {
+		teacherManager.updateMark(JSONNode.get("markId").asLong(), JSONNode.get("value").asDouble(), JSONNode.get("weight").asLong(), JSONNode.get("type").asText(), JSONNode.get("studentId").asLong());
+	}
 	
 	@PostMapping("/save")
 	public Teacher addTeacher(@RequestBody Teacher teacher) {

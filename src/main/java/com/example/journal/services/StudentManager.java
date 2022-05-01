@@ -66,14 +66,11 @@ public class StudentManager {
 	
 	public List<StudentMarksDTO> findStudentMarks(Long studentId){
 		List<Object[]> list = studentRepository.findStudentMarks(studentId);
-		
 		List<StudentMarksDTO> markList = new ArrayList<StudentMarksDTO>();
 		for(int i = 0; i < list.size();i++)
 		{
 			markList.add(mapMarks((Student)list.get(i)[0], (Subject)list.get(i)[1], (Mark)list.get(i)[2], (Teacher)list.get(i)[3]));
 		}
-		
-		
 		return markList;
 	}
 	

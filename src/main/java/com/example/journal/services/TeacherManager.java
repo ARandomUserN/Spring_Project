@@ -79,6 +79,21 @@ public class TeacherManager {
 	public void addMark(Mark mark) {
 		markRepository.save(mark);
 	}
+	
+	//delete mark
+	public void deleteMarkById(Long markId) {
+		markRepository.deleteById(markId);
+	}
+	
+	//update mark
+	public void updateMark(Long markId, double newValue, Long newWeight, String newDescr, Long newStudentId) {
+		Mark mark = markRepository.findById(markId).get();
+		mark.setValue(newValue);
+		mark.setWeight(newWeight);
+		mark.setType(newDescr);
+		mark.setStudentId(newStudentId);
+		markRepository.save(mark);
+	}
 
 	public Optional<Teacher> findById(Long id) {
 		return teacherRepository.findById(id);
