@@ -16,6 +16,7 @@ import com.example.journal.entities.Mark;
 import com.example.journal.entities.Student;
 import com.example.journal.entities.Subject;
 import com.example.journal.entities.Teacher;
+import com.example.journal.repositories.MarkRepository;
 import com.example.journal.repositories.TeacherRepository;
 
 
@@ -23,11 +24,13 @@ import com.example.journal.repositories.TeacherRepository;
 public class TeacherManager {
 
 	private final TeacherRepository teacherRepository;
+	private final MarkRepository markRepository;
 
 	@Autowired
-	public TeacherManager(TeacherRepository teacherRepository) {
+	public TeacherManager(TeacherRepository teacherRepository,MarkRepository markRepository) {
 		super();
 		this.teacherRepository = teacherRepository;
+		this.markRepository = markRepository;
 	}
 	
 	public SubjectDTO mapSubject(Subject subject, Classyear classyear, Teacher teacher) {
@@ -70,6 +73,11 @@ public class TeacherManager {
 			listDTO.add(mapStudent((Student)list.get(i)[0], (Subject)list.get(i)[1], (Mark)list.get(i)[2]));
 		}
 		return listDTO;
+	}
+	
+	// Add a mark
+	public void addMark(Mark mark) {
+		markRepository.save(mark);
 	}
 
 	public Optional<Teacher> findById(Long id) {

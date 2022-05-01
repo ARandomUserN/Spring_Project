@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.journal.dto.SubjectClassStudentDTO;
 import com.example.journal.dto.SubjectDTO;
+import com.example.journal.entities.Mark;
 import com.example.journal.entities.Teacher;
 import com.example.journal.services.TeacherManager;
 
@@ -73,6 +74,11 @@ public class TeacherAPI {
 	@GetMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}")
 	public List<SubjectClassStudentDTO> getStudents(@PathVariable("teacherId") Long teacherId,@PathVariable("subjectId") Long subjectId,@PathVariable("classyearId") Long classyearId){
 		return teacherManager.findStudentsByClassAndSubject(teacherId, subjectId, classyearId);
+	}
+	
+	@PostMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}/student/{studentId}")
+	public void postMark(@RequestBody Mark mark) {
+		teacherManager.addMark(mark);
 	}
 	
 	// TODO teacher/subject/classyear/editmarks(studentID)
