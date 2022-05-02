@@ -19,7 +19,6 @@ import com.example.journal.dto.SubjectDTO;
 import com.example.journal.entities.Mark;
 import com.example.journal.entities.Teacher;
 import com.example.journal.services.TeacherManager;
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
