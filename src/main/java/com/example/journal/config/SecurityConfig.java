@@ -26,17 +26,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .withUser("user2").password(passwordEncoder().encode("user2Pass")).roles("USER")
         .and()
         .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
+    	
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
     	 http
          .csrf().disable()
+         .antMatcher("/**")
          .authorizeRequests()
-         .antMatchers("/admin/**").hasRole("ADMIN")
-         .antMatchers("/anonymous*").anonymous()
-         .antMatchers("/login*").permitAll()
-         .anyRequest().authenticated();
+         .anyRequest()
+         .authenticated()
+         .and()
+         .httpBasic();
     }
 }
 
