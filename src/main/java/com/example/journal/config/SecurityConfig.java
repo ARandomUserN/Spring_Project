@@ -21,9 +21,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
     	auth.inMemoryAuthentication()
-        .withUser("user1").password(passwordEncoder().encode("user1Pass")).roles("USER")
+        .withUser("student").password(passwordEncoder().encode("studentPass")).roles("STUDENT")
         .and()
-        .withUser("user2").password(passwordEncoder().encode("user2Pass")).roles("USER")
+        .withUser("teacher").password(passwordEncoder().encode("teacherPass")).roles("TEACHER")
         .and()
         .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
     	
@@ -33,8 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
     	 http
          .csrf().disable()
-         .antMatcher("/**")
          .authorizeRequests()
+         .antMatchers("/api/students/**").hasRole("STUDENT")
+         .antMatchers("/api/teachers/**").hasRole("TEACHER")
+         .antMatchers("/**").hasRole("ADMIN")
          .anyRequest()
          .authenticated()
          .and()
