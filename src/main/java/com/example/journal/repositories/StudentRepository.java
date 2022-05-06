@@ -15,8 +15,10 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	List<Student> findAllByCaretaker(Long id);
 	
 	
-	@Query("SELECT s,c,y FROM Student s, Caretaker c, Classyear y"
-			+ " WHERE s.caretakerId = c.id AND s.classyearId = y.id")
+	@Query("SELECT s,c,y,u.email FROM Student s, Caretaker c, Classyear y, User u "
+			+ "WHERE s.caretakerId = c.id "
+			+ "AND s.classyearId = y.id "
+			+ "AND u.id = s.userId")
 	List<Object[]> findAll1();
 	
 	@Query("SELECT s from Student s WHERE s.classyearId=?1")

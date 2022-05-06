@@ -10,6 +10,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import com.example.journal.config.UsersRepository;
 import com.example.journal.dto.StudentDTO;
 import com.example.journal.dto.StudentMarksDTO;
 import com.example.journal.dto.StudentRemarksDTO;
@@ -31,20 +32,22 @@ public class StudentManager {
 	private final StudentRepository studentRepository;
 	private final CaretakerRepository caretakerRepository;
 	private final ClassyearRepository classyearRepository;
+	private final UsersRepository usersRepository;
 
 	@Autowired
 	public StudentManager(StudentRepository studentRepository, CaretakerRepository caretakerRepository,
-			ClassyearRepository classyearRepository) {
+			ClassyearRepository classyearRepository,UsersRepository usersRepository) {
 		super();
 		this.studentRepository = studentRepository;
 		this.caretakerRepository = caretakerRepository;
 		this.classyearRepository = classyearRepository;
+		this.usersRepository = usersRepository;
 	}
 	
 	//DTO Mapper  
-	public StudentDTO mapStudent(Student student, Caretaker caretaker, Classyear classyear) {
-		StudentDTO studentDTO = new StudentDTO(student.getId(), student.getFirstName(), student.getLastName(), 
-				student.getPhone(), student.getEmail(), 
+	public StudentDTO mapStudent(Student student, Caretaker caretaker, Classyear classyear, String email) {
+		StudentDTO studentDTO = new StudentDTO(student.getId(),email, student.getFirstName(), student.getLastName(), 
+				student.getPhone(),  
 				caretaker.getFirstName(), caretaker.getLastName(), 
 				classyear.getYear(), classyear.getName(),classyear.getId());
 		return studentDTO;
@@ -91,8 +94,8 @@ public class StudentManager {
 		Optional<Student> student = studentRepository.findById(id);
 		Optional<Caretaker> caretaker = caretakerRepository.findById(student.get().getCaretakerId());
 		Optional<Classyear> classyear = classyearRepository.findById(student.get().getClassyearId());
-		
-		StudentDTO result = mapStudent(student.get(), caretaker.get(), classyear.get());
+		String email = usersRepository.getUserEmail(student.get().getUserId());
+		StudentDTO result = mapStudent(student.get(), caretaker.get(), classyear.get(),email);
 		return result;
 	}
 
@@ -102,7 +105,7 @@ public class StudentManager {
 		List<StudentDTO> result = new ArrayList<StudentDTO>();
 		
 		for(int i =0; i < students.size(); i++) {
-			StudentDTO x = mapStudent((Student)students.get(i)[0], (Caretaker)students.get(i)[1], (Classyear)students.get(i)[2]);
+			StudentDTO x = mapStudent((Student)students.get(i)[0], (Caretaker)students.get(i)[1], (Classyear)students.get(i)[2], (String)students.get(i)[3]);
 			result.add(x);
 		}
 		

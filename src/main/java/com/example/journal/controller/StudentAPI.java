@@ -1,9 +1,13 @@
 package com.example.journal.controller;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +28,10 @@ import com.example.journal.services.StudentManager;
 @RequestMapping("/api/students")
 public class StudentAPI {
 	private StudentManager studentManager;
-	
+
+	Authentication auth;
+
+		
 	@Autowired
 	public StudentAPI(StudentManager studentManager)
 	{
@@ -39,11 +46,21 @@ public class StudentAPI {
 	
 	@GetMapping("/id")
 	public StudentDTO getById(@RequestParam Long index) {
+		
 		return studentManager.findById(index);
 	}
 	@GetMapping(value = "/{studentId}")
 	public StudentDTO getId(@PathVariable("studentId") Long  studentId) {
-		return studentManager.findById(studentId);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		StudentDTO dto =  studentManager.findById(studentId);
+		System.out.println(auth.getName() + " " + dto.email());
+		if(auth.getName().equals(dto.email())) {
+			return dto;
+		}
+		else
+		{
+			return null;
+		}
 	}
 	@GetMapping("/all/class/classyear")
 	public List<Student> getByClassyear(@RequestParam Long index) {
@@ -60,6 +77,7 @@ public class StudentAPI {
 	}
 	@GetMapping("/{studentId}/marks")
 	public List<StudentMarksDTO> getMarks(@PathVariable("studentId") Long id){
+		
 		return studentManager.findStudentMarks(id);
 	}
 	

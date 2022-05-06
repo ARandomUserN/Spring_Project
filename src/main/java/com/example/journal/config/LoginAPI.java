@@ -17,12 +17,6 @@ public class LoginAPI {
 	{
 		Authentication authentication = SecurityContextHolder.
 				getContext().getAuthentication();
-		validatePrinciple(authentication.getPrincipal());
-        User loggedInUser = ((UserPrincipal) authentication.getPrincipal()).getUser();
-
-        model.addAttribute("currentUserId", loggedInUser.getId());
-        model.addAttribute("currentUser", loggedInUser.getEmail());
-        session.setAttribute("userId", loggedInUser.getId());
-		
+		return null;
 	}
 }

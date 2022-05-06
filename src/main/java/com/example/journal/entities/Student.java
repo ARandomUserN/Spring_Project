@@ -19,11 +19,9 @@ public class Student {
 	private String firstName;
 	private String lastName;
 	private String phone;
-	private String email;
-	private String pwd;
 	private long caretakerId;
 	private long classyearId;
-	private long roleId;
+	private long userId;
 	
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)	
@@ -39,17 +37,15 @@ public class Student {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Student(String firstName, String lastName, String phone, String email,String pwd, long caretakerId,
-			long classyearId,long roleId) {
+	public Student(String firstName, String lastName, String phone, long caretakerId,
+			long classyearId,long userId) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
-		this.email = email;
-		this.pwd = pwd;
 		this.caretakerId = caretakerId;
 		this.classyearId = classyearId;
-		this.roleId = roleId;
+		this.userId = userId;
 	}
 	
 	public String getFirstName() {
@@ -76,29 +72,12 @@ public class Student {
 		this.phone = phone;
 	}
 
-	public String getEmail() {
-		return email;
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	
-	public String getPwd() {
-		return pwd;
-	}
-
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-
-	public long getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(long roleId) {
-		this.roleId = roleId;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public long getCaretakerId() {
@@ -126,7 +105,7 @@ public class Student {
 	@Override
 	public String toString() {
 		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + ", caretakerId=" + caretakerId + ", classyearId=" + classyearId
+				+ ", caretakerId=" + caretakerId + ", classyearId=" + classyearId
 				+ "]\n";
 	}
 }
