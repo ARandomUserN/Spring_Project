@@ -21,6 +21,8 @@ public class Teacher {
 	private String lastName;
 	private String phone;
 	private String email;
+	private String pwd;
+	private long roleId;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="teacherId")
@@ -31,12 +33,14 @@ public class Teacher {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Teacher(String firstName, String lastName, String phone, String email) {
+	public Teacher(String firstName, String lastName, String phone, String email,String pwd, long roleId) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
 		this.email = email;
+		this.pwd = pwd;
+		this.roleId = roleId;
 	}
 
 	public String getFirstName() {
@@ -53,6 +57,23 @@ public class Teacher {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	
+	public String getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+	public long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(long roleId) {
+		this.roleId = roleId;
 	}
 
 	public String getPhone() {

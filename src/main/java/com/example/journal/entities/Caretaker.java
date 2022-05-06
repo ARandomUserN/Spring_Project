@@ -28,6 +28,8 @@ public class Caretaker {
 	private String lastName;
 	private String phone;
 	private String email;
+	private String pwd;
+	private long roleId;
 	
 	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="caretakerId")
@@ -46,12 +48,14 @@ public class Caretaker {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Caretaker(String firstName, String lastName, String phone, String email) {
+	public Caretaker(String firstName, String lastName, String phone, String email,String pwd, long roleId) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
 		this.email = email;
+		this.pwd = pwd;
+		this.roleId = roleId;
 	}
 
 	public long getId() {
