@@ -1,11 +1,17 @@
-package com.example.journal.entities;
+package com.example.journal.config;
+
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+
+import com.example.journal.entities.Caretaker;
+import com.example.journal.entities.Student;
+import com.example.journal.entities.Teacher;
 
 @Entity
 public class User {
@@ -16,9 +22,15 @@ public class User {
 	private String email;
 	private String pwd;
 	private Long roleId;
-//	
-//	@OneToOne(mappedBy = "userId")
-//	private Student student;
+	
+	@OneToMany(mappedBy = "userId")
+	Set<Student> student;
+	
+	@OneToMany(mappedBy = "userId")
+	Set<Teacher> teacher;
+	
+	@OneToMany(mappedBy = "userId")
+	Set<Caretaker> caretaker;
 	
 	public User() {
 		super();
@@ -54,9 +66,5 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", pwd=" + pwd + ", roleId=" + roleId + "]";
-	}
-	
-	
-	
-	
+	}	
 }

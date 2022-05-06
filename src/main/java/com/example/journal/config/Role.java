@@ -1,4 +1,4 @@
-package com.example.journal.entities;
+package com.example.journal.config;
 
 import java.util.Set;
 
@@ -11,6 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.example.journal.entities.Caretaker;
+import com.example.journal.entities.Student;
+import com.example.journal.entities.Teacher;
+
 @Entity
 public class Role {
 	@Id
@@ -20,19 +24,7 @@ public class Role {
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "roleId")
-	Set<Student> students;
-	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "roleId")
-	Set<Caretaker> caretakers;
-	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "roleId")
-	Set<Teacher> teachers;
-	
-	
-	
-	
+	Set<User> users;
 	
 	public Role() {
 		super();

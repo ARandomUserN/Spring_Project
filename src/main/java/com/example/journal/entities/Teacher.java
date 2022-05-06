@@ -20,9 +20,7 @@ public class Teacher {
 	private String firstName;
 	private String lastName;
 	private String phone;
-	private String email;
-	private String pwd;
-	private long roleId;
+	private long userId;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="teacherId")
@@ -33,14 +31,12 @@ public class Teacher {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Teacher(String firstName, String lastName, String phone, String email,String pwd, long roleId) {
+	public Teacher(String firstName, String lastName, String phone, long userId) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
-		this.email = email;
-		this.pwd = pwd;
-		this.roleId = roleId;
+		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -59,21 +55,12 @@ public class Teacher {
 		this.lastName = lastName;
 	}
 
-	
-	public String getPwd() {
-		return pwd;
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-
-	public long getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(long roleId) {
-		this.roleId = roleId;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public String getPhone() {
@@ -84,13 +71,6 @@ public class Teacher {
 		this.phone = phone;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
 	public long getId() {
 		return id;
@@ -99,6 +79,6 @@ public class Teacher {
 	@Override
 	public String toString() {
 		return "Teacher [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + "]";
+				+ "]";
 	}
 }
