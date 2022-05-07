@@ -53,6 +53,10 @@ public class TeacherManager {
 		return listDTO;
 	}
 	
+	public String findEmailById(Long teacherId) {
+		return teacherRepository.findEmailById(teacherId);
+	}
+	
 	public List<SubjectDTO> findClassyearBySubject(Long teacherId, Long subjectId){
 		List<Object[]> list = teacherRepository.findClassyearsBySubject(teacherId, subjectId);
 		List<SubjectDTO> listDTO = new ArrayList<SubjectDTO>();

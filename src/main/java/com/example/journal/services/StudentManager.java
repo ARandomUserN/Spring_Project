@@ -53,15 +53,15 @@ public class StudentManager {
 		return studentDTO;
 	}
 	
-	public StudentMarksDTO mapMarks(Student student, Subject subject, Mark mark, Teacher teacher) {
-		StudentMarksDTO dto = new StudentMarksDTO(student, subject.getId(), subject.getName(),
+	public StudentMarksDTO mapMarks(Student student, Subject subject, Mark mark, Teacher teacher, String email) {
+		StudentMarksDTO dto = new StudentMarksDTO(student,email, subject.getId(), subject.getName(),
 				teacher.getId(), teacher.getFirstName(), teacher.getLastName(),
 				mark);
 		return dto;
 	}
 	
-	public StudentRemarksDTO mapRemarks(Student student, Subject subject, Remark remark, Teacher teacher) {
-		StudentRemarksDTO dto = new StudentRemarksDTO(student, subject.getId(), subject.getName(),
+	public StudentRemarksDTO mapRemarks(Student student, Subject subject, Remark remark, Teacher teacher, String email) {
+		StudentRemarksDTO dto = new StudentRemarksDTO(student,email, subject.getId(), subject.getName(),
 				teacher.getId(), teacher.getFirstName(), teacher.getLastName(),
 				remark);
 		return dto;
@@ -69,21 +69,22 @@ public class StudentManager {
 	
 	public List<StudentMarksDTO> findStudentMarks(Long studentId){
 		List<Object[]> list = studentRepository.findStudentMarks(studentId);
+		String email = studentRepository.findEmailById(studentId);
 		List<StudentMarksDTO> markList = new ArrayList<StudentMarksDTO>();
 		for(int i = 0; i < list.size();i++)
 		{
-			markList.add(mapMarks((Student)list.get(i)[0], (Subject)list.get(i)[1], (Mark)list.get(i)[2], (Teacher)list.get(i)[3]));
+			markList.add(mapMarks((Student)list.get(i)[0], (Subject)list.get(i)[1], (Mark)list.get(i)[2], (Teacher)list.get(i)[3], email));
 		}
 		return markList;
 	}
 	
 	public List<StudentRemarksDTO> findStudentRemarks(Long studentId){
 		List<Object[]> list = studentRepository.findStudentRemarks(studentId);
-		
+		String email = studentRepository.findEmailById(studentId);
 		List<StudentRemarksDTO> markList = new ArrayList<StudentRemarksDTO>();
 		for(int i = 0; i < list.size();i++)
 		{
-			markList.add(mapRemarks((Student)list.get(i)[0], (Subject)list.get(i)[1], (Remark)list.get(i)[2], (Teacher)list.get(i)[3]));
+			markList.add(mapRemarks((Student)list.get(i)[0], (Subject)list.get(i)[1], (Remark)list.get(i)[2], (Teacher)list.get(i)[3], email));
 		}
 		
 		return markList;
@@ -101,9 +102,7 @@ public class StudentManager {
 
 	public List<StudentDTO> findAll() {
 		List<Object[]> students = studentRepository.findAll1();
-		
 		List<StudentDTO> result = new ArrayList<StudentDTO>();
-		
 		for(int i =0; i < students.size(); i++) {
 			StudentDTO x = mapStudent((Student)students.get(i)[0], (Caretaker)students.get(i)[1], (Classyear)students.get(i)[2], (String)students.get(i)[3]);
 			result.add(x);

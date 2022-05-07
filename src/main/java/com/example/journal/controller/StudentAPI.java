@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.journal.dto.StudentDTO;
 import com.example.journal.dto.StudentMarksDTO;
@@ -29,7 +31,7 @@ import com.example.journal.services.StudentManager;
 public class StudentAPI {
 	private StudentManager studentManager;
 
-	Authentication auth;
+	private Authentication auth;
 
 		
 	@Autowired
@@ -46,8 +48,16 @@ public class StudentAPI {
 	
 	@GetMapping("/id")
 	public StudentDTO getById(@RequestParam Long index) {
-		
-		return studentManager.findById(index);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		StudentDTO dto =  studentManager.findById(index);
+		System.out.println(auth.getName() + " " + dto.email());
+		if(auth.getName().equals(dto.email())) {
+			return dto;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	@GetMapping(value = "/{studentId}")
 	public StudentDTO getId(@PathVariable("studentId") Long  studentId) {
@@ -59,7 +69,7 @@ public class StudentAPI {
 		}
 		else
 		{
-			return null;
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
 		}
 	}
 	@GetMapping("/all/class/classyear")
@@ -73,23 +83,62 @@ public class StudentAPI {
 	
 	@GetMapping("/id/marks")
 	public List<StudentMarksDTO> getStudentMarks(@RequestParam Long id){
-		return studentManager.findStudentMarks(id);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		List<StudentMarksDTO> markList = studentManager.findStudentMarks(id);
+		if(auth.getName().equals(markList.get(0).email())) {
+			return markList;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		
 	}
 	@GetMapping("/{studentId}/marks")
 	public List<StudentMarksDTO> getMarks(@PathVariable("studentId") Long id){
 		
-		return studentManager.findStudentMarks(id);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		List<StudentMarksDTO> markList = studentManager.findStudentMarks(id);
+		if(auth.getName().equals(markList.get(0).email())) {
+			return markList;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	
 	@GetMapping("/id/remarks")
 	public List<StudentRemarksDTO> getStudentRemarks(@RequestParam Long id){
-		return studentManager.findStudentRemarks(id);
+		
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		List<StudentRemarksDTO> markList = studentManager.findStudentRemarks(id);
+		if(auth.getName().equals(markList.get(0).email())) {
+			return markList;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	@GetMapping("/{studentId}/remarks")
 	public List<StudentRemarksDTO> getRemarks(@PathVariable("studentId") Long id){
-		return studentManager.findStudentRemarks(id);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		List<StudentRemarksDTO> markList = studentManager.findStudentRemarks(id);
+		if(auth.getName().equals(markList.get(0).email())) {
+			return markList;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	
+	@GetMapping("/save")
+	public void getStudentRelevantInfo()
+	{
+		
+	}
 	@PostMapping("/save")
 	public Student addStudent(@RequestBody Student student) {
 		return studentManager.save(student);

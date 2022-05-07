@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.example.journal.dto.StudentRemarksDTO;
 import com.example.journal.dto.SubjectClassStudentDTO;
 import com.example.journal.dto.SubjectDTO;
 import com.example.journal.entities.Mark;
@@ -25,6 +30,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 @RequestMapping("/api/teachers")
 public class TeacherAPI {
 	private TeacherManager teacherManager;
+
+	private Authentication auth;
 	
 	@Autowired
 	public TeacherAPI(TeacherManager teacherManager)
@@ -40,41 +47,115 @@ public class TeacherAPI {
 	
 	@GetMapping("/id")
 	public Optional<Teacher> getById(@RequestParam Long index) {
-		return teacherManager.findById(index);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		Optional<Teacher> teacher = teacherManager.findById(index);
+		String email = teacherManager.findEmailById(index);
+		if(auth.getName().equals(email)) {
+			return teacher;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	@GetMapping(value = "/{teacherId}")
 	public Optional<Teacher> getId(@PathVariable("teacherId") Long  teacherId) {
-		return teacherManager.findById(teacherId);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		Optional<Teacher> teacher = teacherManager.findById(teacherId);
+		String email = teacherManager.findEmailById(teacherId);
+		if(auth.getName().equals(email)) {
+			return teacher;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	
 	//List of taught subjects
 	@GetMapping("/id/subjects")
 	public List<SubjectDTO> getSubjectsById(@RequestParam Long teacherId){
-		return teacherManager.findSubjects(teacherId);
+		List<SubjectDTO> subjectList = teacherManager.findSubjects(teacherId);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = teacherManager.findEmailById(teacherId);
+		if(auth.getName().equals(email)) {
+			return subjectList;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		
 	}
 	@GetMapping("/{teacherId}/subjects")
 	public List<SubjectDTO> getSubjects(@PathVariable("teacherId") Long teacherId){
-		return teacherManager.findSubjects(teacherId);
+		List<SubjectDTO> subjectList = teacherManager.findSubjects(teacherId);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = teacherManager.findEmailById(teacherId);
+		if(auth.getName().equals(email)) {
+			return subjectList;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	
 	// List of Classes filtered by subject
 	@GetMapping("/id/subjects/subId")
 	public List<SubjectDTO> getClassyearsBySubject(@RequestParam Long id, @RequestParam Long subId){
-		return teacherManager.findClassyearBySubject(id,subId);
+		List<SubjectDTO> subjectList = teacherManager.findClassyearBySubject(id,subId);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = teacherManager.findEmailById(id);
+		if(auth.getName().equals(email)) {
+			return subjectList;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	@GetMapping("/{teacherId}/subjects/{subjectId}")
 	public List<SubjectDTO> getClassyears(@PathVariable("teacherId") Long teacherId,@PathVariable("subjectId") Long subjectId){
-		return teacherManager.findClassyearBySubject(teacherId,subjectId);
+		List<SubjectDTO> subjectList = teacherManager.findClassyearBySubject(teacherId,subjectId);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = teacherManager.findEmailById(teacherId);
+		if(auth.getName().equals(email)) {
+			return subjectList;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 
 	//Students in class + marks
 	@GetMapping("/id/subjects/subId/classes/classId")
 	public List<SubjectClassStudentDTO> getStudentsByClassyear(@RequestParam Long id, @RequestParam Long subId,@RequestParam Long classId){
-		return teacherManager.findStudentsByClassAndSubject(id, subId, classId);
+		List<SubjectClassStudentDTO> subjectList = teacherManager.findStudentsByClassAndSubject(id, subId, classId);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = teacherManager.findEmailById(id);
+		if(auth.getName().equals(email)) {
+			return subjectList;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	@GetMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}")
 	public List<SubjectClassStudentDTO> getStudents(@PathVariable("teacherId") Long teacherId,@PathVariable("subjectId") Long subjectId,@PathVariable("classyearId") Long classyearId){
-		return teacherManager.findStudentsByClassAndSubject(teacherId, subjectId, classyearId);
+
+		List<SubjectClassStudentDTO> subjectList = teacherManager.findStudentsByClassAndSubject(teacherId, subjectId, classyearId);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = teacherManager.findEmailById(teacherId);
+		if(auth.getName().equals(email)) {
+			return subjectList;
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	
 	// JSON to send from client
@@ -85,9 +166,18 @@ public class TeacherAPI {
 	//    "type": string
 	//}
 	@PostMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}")
-	public void postMark(@RequestBody ObjectNode JSONNode, @PathVariable("subjectId") Long subjectId) {
-		Mark mk = new Mark(JSONNode.get("value").asDouble(), JSONNode.get("weight").asLong(), subjectId, JSONNode.get("studentId").asLong(), JSONNode.get("type").asText());
-		teacherManager.addMark(mk);
+	public void postMark(@RequestBody ObjectNode JSONNode, @PathVariable("teacherId") Long teacherId,@PathVariable("subjectId") Long subjectId) {
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = teacherManager.findEmailById(teacherId);
+		if(auth.getName().equals(email)) {
+			Mark mk = new Mark(JSONNode.get("value").asDouble(), JSONNode.get("weight").asLong(), subjectId, JSONNode.get("studentId").asLong(), JSONNode.get("type").asText());
+			teacherManager.addMark(mk);
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		
 	}
 	
 	// JSON to send from client
@@ -95,8 +185,16 @@ public class TeacherAPI {
 	//    "markId": Long, // id of existing mark, available from the same endpoint
 	//}
 	@DeleteMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}")
-	public void deleteMark(@RequestBody ObjectNode JSONNode) {
-		teacherManager.deleteMarkById(JSONNode.get("markId").asLong());
+	public void deleteMark(@RequestBody ObjectNode JSONNode, @PathVariable("teacherId") Long teacherId) {
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = teacherManager.findEmailById(teacherId);
+		if(auth.getName().equals(email)) {
+			teacherManager.deleteMarkById(JSONNode.get("markId").asLong());
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	
 	
@@ -109,9 +207,18 @@ public class TeacherAPI {
 	//    "type": string
 	//}
 	@PutMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}")
-	public void putMark(@RequestBody ObjectNode JSONNode) {
-		teacherManager.updateMark(JSONNode.get("markId").asLong(), JSONNode.get("value").asDouble(), JSONNode.get("weight").asLong(), JSONNode.get("type").asText(), JSONNode.get("studentId").asLong());
-	}
+	public void putMark(@RequestBody ObjectNode JSONNode,@PathVariable("teacherId") Long teacherId) {
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = teacherManager.findEmailById(teacherId);
+		if(auth.getName().equals(email)) {
+			teacherManager.updateMark(JSONNode.get("markId").asLong(), JSONNode.get("value").asDouble(), JSONNode.get("weight").asLong(), JSONNode.get("type").asText(), JSONNode.get("studentId").asLong());
+			
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		}
 	
 	@PostMapping("/save")
 	public Teacher addTeacher(@RequestBody Teacher teacher) {
