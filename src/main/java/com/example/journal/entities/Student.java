@@ -30,7 +30,7 @@ public class Student {
 	
 	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)	
 	@JoinColumn(name="studentId")
-	Set<Remark> remark;
+	Set<Remark> remarks;
 
 	public Student() {
 		super();

@@ -23,8 +23,12 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.journal.dto.StudentDTO;
 import com.example.journal.dto.StudentMarksDTO;
 import com.example.journal.dto.StudentRemarksDTO;
+import com.example.journal.entities.Caretaker;
+import com.example.journal.entities.Classyear;
 import com.example.journal.entities.Student;
+import com.example.journal.services.ClassyearManager;
 import com.example.journal.services.StudentManager;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
 @RequestMapping("/api/students")
@@ -135,20 +139,53 @@ public class StudentAPI {
 	}
 	
 	@GetMapping("/save")
-	public void getStudentRelevantInfo()
+	public List<Classyear> getAllClasses()
 	{
-		
+		return studentManager.getAllClasses();
 	}
+	
+	// JSON to send from client
+		//{
+		//	//Student data
+		//	"sFName":String,
+		//	"sLName":String,
+		//	"sPhone":String,
+		//	"sEmail":String,
+		//	"sPwD":String, // Must be BCrypt
+		//	//Caretaker data
+		//	"cFName":String,
+		//	"cLName":String,
+		//	"cPhone":String,
+		//	"cEmail":String,
+		//	"cPwd":String, // Must be BCrypt
+		//	"classyearId":Long
+		//}
 	@PostMapping("/save")
-	public Student addStudent(@RequestBody Student student) {
-		return studentManager.save(student);
+	public Student addStudent(@RequestBody ObjectNode JSONNode) {
+		return studentManager.save(JSONNode.get("sFName").asText(),JSONNode.get("sLName").asText(),
+				JSONNode.get("sPhone").asText(), JSONNode.get("sEmail").asText(),JSONNode.get("sPwd").asText(),
+				JSONNode.get("cFName").asText(),JSONNode.get("cLName").asText(),
+				JSONNode.get("cPhone").asText(),
+				JSONNode.get("cEmail").asText(),JSONNode.get("cPwd").asText(),
+				JSONNode.get("classyearId").asLong());
 	}
 
+	
+	@GetMapping("/upd")
+	public List<StudentDTO> getStudentsToUpdate()
+	{
+		return studentManager.findAll();
+	}
 	@PutMapping("/upd")
 	public Student updateStudent(@RequestBody Student student) {
 		return studentManager.save(student);
 	}
 
+	@GetMapping("/del")
+	public List<StudentDTO> getListOfStudentsToDelete()
+	{
+		return studentManager.findAll();
+	} 
 	@DeleteMapping("/del")
 	public void deleteStudent(@RequestParam Long index) {
 		studentManager.deleteById(index);

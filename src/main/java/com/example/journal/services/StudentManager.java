@@ -10,6 +10,9 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import com.example.journal.config.Role;
+import com.example.journal.config.RolesRepository;
+import com.example.journal.config.User;
 import com.example.journal.config.UsersRepository;
 import com.example.journal.dto.StudentDTO;
 import com.example.journal.dto.StudentMarksDTO;
@@ -33,15 +36,17 @@ public class StudentManager {
 	private final CaretakerRepository caretakerRepository;
 	private final ClassyearRepository classyearRepository;
 	private final UsersRepository usersRepository;
+	private final RolesRepository rolesRepository;
 
 	@Autowired
 	public StudentManager(StudentRepository studentRepository, CaretakerRepository caretakerRepository,
-			ClassyearRepository classyearRepository,UsersRepository usersRepository) {
+			ClassyearRepository classyearRepository,UsersRepository usersRepository,RolesRepository rolesRepository) {
 		super();
 		this.studentRepository = studentRepository;
 		this.caretakerRepository = caretakerRepository;
 		this.classyearRepository = classyearRepository;
 		this.usersRepository = usersRepository;
+		this.rolesRepository = rolesRepository;
 	}
 	
 	//DTO Mapper  
@@ -133,6 +138,23 @@ public class StudentManager {
 
 	}
 
-    
+	public List<Classyear> getAllClasses() {
+		return classyearRepository.findAll();
+	}
+
+	public Student save(String sFName, String sLName, String sPhone, String sEmail, String sPwd, 
+			String cFName, String cLName, String cPhone, String cEmail, String cPwd, long classyearId) {
+		Role role = rolesRepository.findByRole("CARETAKER");
+		User uCaretaker = new User(cEmail,cPwd, role.getId());
+		usersRepository.save(uCaretaker);
+		Caretaker caretaker = new Caretaker(cFName, cLName, cPhone, uCaretaker.getId());
+		caretakerRepository.save(caretaker);
+		
+		role = rolesRepository.findByRole("STUDENT");
+		User uStudent = new User(sEmail,sPwd,role.getId());
+		usersRepository.save(uStudent);
+		Student student = new Student(cFName, cLName, cPhone, caretaker.getId(), classyearId, uStudent.getId());
+		return studentRepository.save(student);
+	}   
 
 }
