@@ -19,7 +19,10 @@ public class MyUserPrincipal implements UserDetails {
 	public MyUserPrincipal(User user) {
 		this.user = user;
 	}
-
+	
+	public User getUser() {
+		return this.user;
+	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
