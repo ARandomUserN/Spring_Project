@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
 	@Autowired
-	AuthenticationSuccessHandler successHandler;
+	CustomSuccessHandler successHandler;
 	
 	@Bean 
 	public PasswordEncoder passwordEncoder() { 
