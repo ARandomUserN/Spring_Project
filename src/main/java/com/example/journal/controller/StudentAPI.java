@@ -115,7 +115,7 @@ public class StudentAPI {
 	@GetMapping("/all/class/classyear")
 	public List<Student> getByClassyear(@RequestParam Long index) {
 		auth = SecurityContextHolder.getContext().getAuthentication();
-		List<StudentMarksDTO> markList = studentManager.findStudentMarks(id);
+		List<StudentMarksDTO> markList = studentManager.findStudentMarks(index);
 		if(accessPrivilegeCheck(markList.get(0).email(), auth)) {
 			return studentManager.findAllByClass(index);
 		}
@@ -128,7 +128,7 @@ public class StudentAPI {
 	@GetMapping("/all/class/{classyearId}")
 	public List<Student> getClassyear(@PathVariable("classyearId") Long classyearId) {
 		auth = SecurityContextHolder.getContext().getAuthentication();
-		List<StudentMarksDTO> markList = studentManager.findStudentMarks(id);
+		List<StudentMarksDTO> markList = studentManager.findStudentMarks(classyearId);
 		if(accessPrivilegeCheck(markList.get(0).email(), auth)) {
 			return studentManager.findAllByClass(classyearId);
 		}
