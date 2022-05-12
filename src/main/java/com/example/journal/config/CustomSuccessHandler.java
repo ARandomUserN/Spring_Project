@@ -14,6 +14,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import com.example.journal.entities.Student;
 import com.example.journal.repositories.StudentRepository;
 
 @Component
@@ -34,23 +35,17 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 
-		String redirectUrl = "/api/students/45";
+		String redirectUrl = "";
 
-//		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//		for (GrantedAuthority grantedAuthority : authorities) {
-//			System.out.println("role " + grantedAuthority.getAuthority());
-//			if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
-//				redirectUrl = "/userDashboard";
-//				break;
-//			} else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
-//				redirectUrl = "/adminDashboard";
-//				break;
-//			}
-//		}
-//		System.out.println("redirectUrl " + redirectUrl);
-//		if (redirectUrl == null) {
-//			throw new IllegalStateException();
-//		}
+		Long loggedUserId = ((MyUserPrincipal)authentication.getPrincipal()).getUser().getId();
+		Student student = studentRepository.findStudentByUser(loggedUserId);
+		if(student != null) {
+			redirectUrl = "api/students/"+student.getId();
+		}
+		System.out.println("redirectUrl " + redirectUrl);
+		if (redirectUrl == null) {
+			throw new IllegalStateException();
+		}
 		new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
 	}
 }
