@@ -1,6 +1,7 @@
 package com.example.journal.config;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,12 +9,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
+	@Autowired
+	AuthenticationSuccessHandler successHandler;
 	
 	@Bean 
 	public PasswordEncoder passwordEncoder() { 
@@ -56,10 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		        .antMatchers("/login").permitAll()
 		        .and()
 				    .formLogin()
-			        .loginPage("/login")
-			        .defaultSuccessUrl("/", true)
-	                .usernameParameter("email")
-	                .passwordParameter("pwd")
+				    .loginPage("/login")
+				    .successHandler(successHandler)
 	                .permitAll()
 	                .and()
 	                .logout()

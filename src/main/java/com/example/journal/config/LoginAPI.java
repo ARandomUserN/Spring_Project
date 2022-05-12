@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.journal.entities.Student;
 import com.example.journal.repositories.CaretakerRepository;
@@ -42,11 +43,11 @@ public class LoginAPI {
 	}
 	
 	@RequestMapping("/")
-    public String index(Model model) {
+    public RedirectView index(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken))
-            return loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId());
-        return "login";
+            return new RedirectView(loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId()));;
+        return new RedirectView("login");
     }
 	
 		
@@ -55,7 +56,7 @@ public class LoginAPI {
 		if(student != null) {
 			return "api/students/"+student.getId();
 		}
-		return "/login";
+		return "login";
 	}
 	@GetMapping("/login")
 	public String getLogin() {
