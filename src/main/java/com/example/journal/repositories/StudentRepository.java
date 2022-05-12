@@ -45,5 +45,9 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 			+ "WHERE s.id = ?1 "
 			+ "AND u.id = s.userId")
 	String findEmailById(Long studentId);
+	
+	@Query("SELECT s FROM Student s "
+			+ "WHERE s.userId = ?1")
+	Student findStudentByUser(Long userId);
 
 }

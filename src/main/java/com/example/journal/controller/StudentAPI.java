@@ -1,5 +1,8 @@
 package com.example.journal.controller;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.journal.config.Role;
+import com.example.journal.config.RolesRepository;
 import com.example.journal.dto.StudentDTO;
 import com.example.journal.dto.StudentMarksDTO;
 import com.example.journal.dto.StudentRemarksDTO;
@@ -34,14 +40,15 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 @RequestMapping("/api/students")
 public class StudentAPI {
 	private StudentManager studentManager;
-
+	private RolesRepository rolesRepository;
 	private Authentication auth;
 
 		
 	@Autowired
-	public StudentAPI(StudentManager studentManager)
+	public StudentAPI(StudentManager studentManager,RolesRepository rolesRepository)
 	{
 		this.studentManager = studentManager;
+		this.rolesRepository = rolesRepository;
 	}
 	
 	@GetMapping("/all")
@@ -54,7 +61,7 @@ public class StudentAPI {
 	public StudentDTO getById(@RequestParam Long index) {
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		StudentDTO dto =  studentManager.findById(index);
-		System.out.println(auth.getName() + " " + dto.email());
+		System.out.println(auth.getName() + " " + dto.email() + " " + auth.getAuthorities().toString());
 		if(auth.getName().equals(dto.email())) {
 			return dto;
 		}
@@ -67,8 +74,19 @@ public class StudentAPI {
 	public StudentDTO getId(@PathVariable("studentId") Long  studentId) {
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		StudentDTO dto =  studentManager.findById(studentId);
-		System.out.println(auth.getName() + " " + dto.email());
-		if(auth.getName().equals(dto.email())) {
+		System.out.println(auth.getName() + " " + dto.email() + " " + auth.getAuthorities().toString());
+		// Exception for admin
+		boolean flag = false;
+		Collection<GrantedAuthority> list1 = Collections.unmodifiableCollection(auth.getAuthorities());
+		for (Iterator<GrantedAuthority> it = list1.iterator();it.hasNext();){
+            if(it.next().toString().equals("2")) {
+            	flag = true;
+            	break;
+            }
+        }
+		
+		
+		if(auth.getName().equals(dto.email()) || flag) {
 			return dto;
 		}
 		else
@@ -89,7 +107,7 @@ public class StudentAPI {
 	public List<StudentMarksDTO> getStudentMarks(@RequestParam Long id){
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		List<StudentMarksDTO> markList = studentManager.findStudentMarks(id);
-		if(auth.getName().equals(markList.get(0).email())) {
+		if(auth.getName().equals(markList.get(0).email()) ) {
 			return markList;
 		}
 		else
@@ -103,7 +121,7 @@ public class StudentAPI {
 		
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		List<StudentMarksDTO> markList = studentManager.findStudentMarks(id);
-		if(auth.getName().equals(markList.get(0).email())) {
+		if(auth.getName().equals(markList.get(0).email())|| auth.getAuthorities().contains('2')) {
 			return markList;
 		}
 		else
@@ -169,7 +187,8 @@ public class StudentAPI {
 				JSONNode.get("cEmail").asText(),JSONNode.get("cPwd").asText(),
 				JSONNode.get("classyearId").asLong());
 	}
-
+	
+	
 	
 	@GetMapping("/upd")
 	public List<StudentDTO> getStudentsToUpdate()

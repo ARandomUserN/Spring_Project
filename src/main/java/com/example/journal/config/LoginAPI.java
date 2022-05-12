@@ -17,24 +17,36 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.journal.entities.Student;
+import com.example.journal.repositories.CaretakerRepository;
+import com.example.journal.repositories.StudentRepository;
+import com.example.journal.repositories.TeacherRepository;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service
 public class LoginAPI {
 	
 	private final UsersRepository usersRepository;
+	private final TeacherRepository teacherRepository;
+	private final StudentRepository studentRepository;
+	private final CaretakerRepository caretakerRepository;
 	
 	@Autowired
-	public LoginAPI(UsersRepository usersRepository) {
+	public LoginAPI(UsersRepository usersRepository,CaretakerRepository caretakerRepository, TeacherRepository teacherRepository,StudentRepository studentRepository) {
 		this.usersRepository = usersRepository;
+		this.caretakerRepository = caretakerRepository;
+		this.studentRepository = studentRepository;
+		this.teacherRepository = teacherRepository;
 	}
 	
-	//JSON
-	//{
-	//	email: str
-	//  pwd: str
-	//}
-
+		
+	private String loginSuccessHandler(Long loggedUserId) {
+		Student student = studentRepository.findStudentByUser(loggedUserId);
+		if(student != null) {
+			return "/api/students/"+student.getId();
+		}
+		return "/login";
+	}
 	@GetMapping("/login")
 	public String getLogin() {
 		return "test";
@@ -51,7 +63,7 @@ public class LoginAPI {
 	    model.addAttribute("currentUser", loggedInUser.getEmail());
 	    httpSession.setAttribute("userId", loggedInUser.getId());
 	    System.out.println("loggedInUser.getEmail()");
-	    return "/login";
+	    return loginSuccessHandler(loggedInUser.getId());
 	}
 	
 	
