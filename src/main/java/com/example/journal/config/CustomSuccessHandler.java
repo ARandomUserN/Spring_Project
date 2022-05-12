@@ -46,6 +46,8 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 		if (redirectUrl == null) {
 			throw new IllegalStateException();
 		}
+		
+		response.addHeader("url", redirectUrl);
 		new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
 	}
 }
