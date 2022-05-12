@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.journal.entities.Student;
@@ -39,11 +41,19 @@ public class LoginAPI {
 		this.teacherRepository = teacherRepository;
 	}
 	
+	@RequestMapping("/")
+    public String index(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken))
+            return loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId());
+        return "login";
+    }
+	
 		
 	private String loginSuccessHandler(Long loggedUserId) {
 		Student student = studentRepository.findStudentByUser(loggedUserId);
 		if(student != null) {
-			return "/api/students/"+student.getId();
+			return "api/students/"+student.getId();
 		}
 		return "/login";
 	}
