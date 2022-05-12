@@ -43,7 +43,23 @@ public class StudentAPI {
 	private RolesRepository rolesRepository;
 	private Authentication auth;
 
+	
+	private boolean accessCheck(String email, Authentication user) {
+		Role admin = rolesRepository.findByRole("ADMIN");
 		
+		boolean flag = false;
+		Collection<GrantedAuthority> list1 = Collections.unmodifiableCollection(auth.getAuthorities());
+		for (Iterator<GrantedAuthority> it = list1.iterator();it.hasNext();){
+            if(it.next().toString().equals(admin.getId().toString())) {
+            	flag = true;
+            	break;
+            }
+        }
+		if(auth.getName().equals(email) || flag){
+			return true;
+		}
+		return false;
+	}
 	@Autowired
 	public StudentAPI(StudentManager studentManager,RolesRepository rolesRepository)
 	{
@@ -62,7 +78,7 @@ public class StudentAPI {
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		StudentDTO dto =  studentManager.findById(index);
 		System.out.println(auth.getName() + " " + dto.email() + " " + auth.getAuthorities().toString());
-		if(auth.getName().equals(dto.email())) {
+		if(accessCheck(dto.email(), auth)) {
 			return dto;
 		}
 		else
@@ -75,18 +91,8 @@ public class StudentAPI {
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		StudentDTO dto =  studentManager.findById(studentId);
 		System.out.println(auth.getName() + " " + dto.email() + " " + auth.getAuthorities().toString());
-		// Exception for admin
-		boolean flag = false;
-		Collection<GrantedAuthority> list1 = Collections.unmodifiableCollection(auth.getAuthorities());
-		for (Iterator<GrantedAuthority> it = list1.iterator();it.hasNext();){
-            if(it.next().toString().equals("2")) {
-            	flag = true;
-            	break;
-            }
-        }
 		
-		
-		if(auth.getName().equals(dto.email()) || flag) {
+		if(accessCheck(dto.email(), auth)) {
 			return dto;
 		}
 		else
@@ -107,7 +113,7 @@ public class StudentAPI {
 	public List<StudentMarksDTO> getStudentMarks(@RequestParam Long id){
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		List<StudentMarksDTO> markList = studentManager.findStudentMarks(id);
-		if(auth.getName().equals(markList.get(0).email()) ) {
+		if(accessCheck(markList.get(0).email(), auth)) {
 			return markList;
 		}
 		else
@@ -121,7 +127,7 @@ public class StudentAPI {
 		
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		List<StudentMarksDTO> markList = studentManager.findStudentMarks(id);
-		if(auth.getName().equals(markList.get(0).email())|| auth.getAuthorities().contains('2')) {
+		if(accessCheck(markList.get(0).email(), auth)) {
 			return markList;
 		}
 		else
@@ -135,7 +141,7 @@ public class StudentAPI {
 		
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		List<StudentRemarksDTO> markList = studentManager.findStudentRemarks(id);
-		if(auth.getName().equals(markList.get(0).email())) {
+		if(accessCheck(markList.get(0).email(), auth)) {
 			return markList;
 		}
 		else
@@ -147,7 +153,7 @@ public class StudentAPI {
 	public List<StudentRemarksDTO> getRemarks(@PathVariable("studentId") Long id){
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		List<StudentRemarksDTO> markList = studentManager.findStudentRemarks(id);
-		if(auth.getName().equals(markList.get(0).email())) {
+		if(accessCheck(markList.get(0).email(), auth)) {
 			return markList;
 		}
 		else
