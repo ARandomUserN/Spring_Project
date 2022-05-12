@@ -28,7 +28,7 @@ public class MyUserDetailsService implements UserDetailsService{
             throw new UsernameNotFoundException(email);
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();  
-    	System.out.println(user.getEmail() + " " + encoder.matches("pwd", user.getPwd()) + " " + user.getRoleId());
+//    	System.out.println(user.getEmail() + " " + encoder.matches("pwd", user.getPwd()) + " " + user.getRoleId());
         return new MyUserPrincipal(user);
     }
     
