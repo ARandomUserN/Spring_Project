@@ -1,6 +1,8 @@
 package com.example.journal.config;
 
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 @EnableWebSecurity
@@ -22,12 +28,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() { 
 	    return new BCryptPasswordEncoder(); 
 	}
-
+	
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
     	 http
     	 
-         .csrf().disable()
+         .csrf().disable().cors().and()
          	.authorizeRequests()
          	// ID ról
          	//  admin = 2
@@ -72,5 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		                	.httpBasic()
     	 ;
     }
+    
+
 }
 

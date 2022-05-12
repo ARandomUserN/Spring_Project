@@ -1,6 +1,7 @@
 package com.example.journal.config;
 
 import java.nio.file.attribute.UserPrincipal;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.journal.entities.Student;
@@ -20,7 +22,7 @@ import com.example.journal.repositories.CaretakerRepository;
 import com.example.journal.repositories.StudentRepository;
 import com.example.journal.repositories.TeacherRepository;
 
-@Service
+@RestController
 public class LoginAPI {
 	
 	private final UsersRepository usersRepository;
@@ -52,9 +54,10 @@ public class LoginAPI {
 		}
 		return "login";
 	}
+	
 	@GetMapping("/login")
 	public String getLogin() {
-		return "test";
+		return "loginSuccessHandler";
 	}
 	@PostMapping("/login")
 	public String postLogin(Model model, HttpSession httpSession)
