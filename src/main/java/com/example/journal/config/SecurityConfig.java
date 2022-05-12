@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
     	 http
     	 
-         .csrf().disable().cors().and()
+         .csrf().disable().cors(cors -> cors.disable())
          	.authorizeRequests()
          	// ID ról
          	//  admin = 2
