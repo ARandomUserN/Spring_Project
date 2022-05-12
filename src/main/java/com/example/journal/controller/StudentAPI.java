@@ -43,19 +43,31 @@ public class StudentAPI {
 	private RolesRepository rolesRepository;
 	private Authentication auth;
 
-	
-	private boolean accessCheck(String email, Authentication user) {
+	private boolean adminAccessPrivilegeCheck(Authentication user) {
 		Role admin = rolesRepository.findByRole("ADMIN");
-		
-		boolean flag = false;
-		Collection<GrantedAuthority> list1 = Collections.unmodifiableCollection(auth.getAuthorities());
-		for (Iterator<GrantedAuthority> it = list1.iterator();it.hasNext();){
+		boolean adminPrivilege = false;
+		Collection<GrantedAuthority> userPrivileges = Collections.unmodifiableCollection(auth.getAuthorities());
+		for (Iterator<GrantedAuthority> it = userPrivileges.iterator();it.hasNext();){
             if(it.next().toString().equals(admin.getId().toString())) {
-            	flag = true;
+            	adminPrivilege = true;
             	break;
             }
         }
-		if(auth.getName().equals(email) || flag){
+		return adminPrivilege;
+	}
+	
+	private boolean accessPrivilegeCheck(String email, Authentication user) {
+		Role admin = rolesRepository.findByRole("ADMIN");
+		
+		boolean adminPrivilege = false;
+		Collection<GrantedAuthority> userPrivileges = Collections.unmodifiableCollection(auth.getAuthorities());
+		for (Iterator<GrantedAuthority> it = userPrivileges.iterator();it.hasNext();){
+            if(it.next().toString().equals(admin.getId().toString())) {
+            	adminPrivilege = true;
+            	break;
+            }
+        }
+		if(auth.getName().equals(email) || adminPrivilege){
 			return true;
 		}
 		return false;
@@ -78,7 +90,7 @@ public class StudentAPI {
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		StudentDTO dto =  studentManager.findById(index);
 		System.out.println(auth.getName() + " " + dto.email() + " " + auth.getAuthorities().toString());
-		if(accessCheck(dto.email(), auth)) {
+		if(accessPrivilegeCheck(dto.email(), auth)) {
 			return dto;
 		}
 		else
@@ -92,7 +104,7 @@ public class StudentAPI {
 		StudentDTO dto =  studentManager.findById(studentId);
 		System.out.println(auth.getName() + " " + dto.email() + " " + auth.getAuthorities().toString());
 		
-		if(accessCheck(dto.email(), auth)) {
+		if(accessPrivilegeCheck(dto.email(), auth)) {
 			return dto;
 		}
 		else
@@ -102,18 +114,36 @@ public class StudentAPI {
 	}
 	@GetMapping("/all/class/classyear")
 	public List<Student> getByClassyear(@RequestParam Long index) {
-		return studentManager.findAllByClass(index);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		List<StudentMarksDTO> markList = studentManager.findStudentMarks(id);
+		if(accessPrivilegeCheck(markList.get(0).email(), auth)) {
+			return studentManager.findAllByClass(index);
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		
 	}
 	@GetMapping("/all/class/{classyearId}")
 	public List<Student> getClassyear(@PathVariable("classyearId") Long classyearId) {
-		return studentManager.findAllByClass(classyearId);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		List<StudentMarksDTO> markList = studentManager.findStudentMarks(id);
+		if(accessPrivilegeCheck(markList.get(0).email(), auth)) {
+			return studentManager.findAllByClass(classyearId);
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		
 	}
 	
 	@GetMapping("/id/marks")
 	public List<StudentMarksDTO> getStudentMarks(@RequestParam Long id){
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		List<StudentMarksDTO> markList = studentManager.findStudentMarks(id);
-		if(accessCheck(markList.get(0).email(), auth)) {
+		if(accessPrivilegeCheck(markList.get(0).email(), auth)) {
 			return markList;
 		}
 		else
@@ -127,7 +157,7 @@ public class StudentAPI {
 		
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		List<StudentMarksDTO> markList = studentManager.findStudentMarks(id);
-		if(accessCheck(markList.get(0).email(), auth)) {
+		if(accessPrivilegeCheck(markList.get(0).email(), auth)) {
 			return markList;
 		}
 		else
@@ -141,7 +171,7 @@ public class StudentAPI {
 		
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		List<StudentRemarksDTO> markList = studentManager.findStudentRemarks(id);
-		if(accessCheck(markList.get(0).email(), auth)) {
+		if(accessPrivilegeCheck(markList.get(0).email(), auth)) {
 			return markList;
 		}
 		else
@@ -153,7 +183,7 @@ public class StudentAPI {
 	public List<StudentRemarksDTO> getRemarks(@PathVariable("studentId") Long id){
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		List<StudentRemarksDTO> markList = studentManager.findStudentRemarks(id);
-		if(accessCheck(markList.get(0).email(), auth)) {
+		if(accessPrivilegeCheck(markList.get(0).email(), auth)) {
 			return markList;
 		}
 		else
@@ -165,7 +195,14 @@ public class StudentAPI {
 	@GetMapping("/save")
 	public List<Classyear> getAllClasses()
 	{
-		return studentManager.getAllClasses();
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		if(adminAccessPrivilegeCheck(auth)) {
+			return studentManager.getAllClasses();
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	
 	// JSON to send from client
@@ -199,21 +236,52 @@ public class StudentAPI {
 	@GetMapping("/upd")
 	public List<StudentDTO> getStudentsToUpdate()
 	{
-		return studentManager.findAll();
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		if(adminAccessPrivilegeCheck(auth)) {
+			return studentManager.findAll();
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		
 	}
 	@PutMapping("/upd")
 	public Student updateStudent(@RequestBody Student student) {
-		return studentManager.save(student);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		if(adminAccessPrivilegeCheck(auth)) {
+			return studentManager.save(student);
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 
 	@GetMapping("/del")
 	public List<StudentDTO> getListOfStudentsToDelete()
 	{
-		return studentManager.findAll();
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		if(adminAccessPrivilegeCheck(auth)) {
+			return studentManager.findAll();
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		
 	} 
 	@DeleteMapping("/del")
 	public void deleteStudent(@RequestParam Long index) {
-		studentManager.deleteById(index);
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		if(adminAccessPrivilegeCheck(auth)) {
+			studentManager.deleteById(index);
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		
 	}
 	
 	
