@@ -58,8 +58,9 @@ public class LoginAPI {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/login")
 	public String getLogin() {
-		auth = SecurityContextHolder.getContext().getAuthentication();
-		return loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId());
+//		auth = SecurityContextHolder.getContext().getAuthentication();
+//		return loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId());
+		return "/";
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
