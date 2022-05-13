@@ -30,7 +30,7 @@ public class LoginAPI {
 	private final TeacherRepository teacherRepository;
 	private final StudentRepository studentRepository;
 	private final CaretakerRepository caretakerRepository;
-	
+	private Authentication auth;
 	@Autowired
 	public LoginAPI(UsersRepository usersRepository,CaretakerRepository caretakerRepository, TeacherRepository teacherRepository,StudentRepository studentRepository) {
 		this.usersRepository = usersRepository;
@@ -58,7 +58,8 @@ public class LoginAPI {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/login")
 	public String getLogin() {
-		return "/login";
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		return loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId());
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
