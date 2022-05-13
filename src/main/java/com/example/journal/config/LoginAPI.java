@@ -56,17 +56,17 @@ public class LoginAPI {
 		}
 		return "login";
 	}
-	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping("/login")
-	public String getLogin() {
-		return "/";
-	}
+//	@CrossOrigin(origins = "http://localhost:3000")
+//	@GetMapping("/login")
+//	public String getLogin() {
+//		return "/";
+//	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/login")
 	public String postLogin(Model model, HttpSession httpSession)
 	{
-		System.out.println("AAAAAAAAAAAAAa");
+			
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		validatePrinciple(authentication.getPrincipal());
 	    User loggedInUser = ((MyUserPrincipal)authentication.getPrincipal()).getUser();
