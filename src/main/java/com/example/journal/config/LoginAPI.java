@@ -75,6 +75,9 @@ public class LoginAPI {
 	    model.addAttribute("currentUser", loggedInUser.getEmail());
 	    httpSession.setAttribute("userId", loggedInUser.getId());
 	    System.out.println((authentication.getPrincipal()).getClass());
+	    
+	    
+	    
 	    return authentication;
 	}
 	
