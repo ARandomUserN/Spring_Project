@@ -58,7 +58,7 @@ public class LoginAPI {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/login")
 	public String getLogin() {
-		return "/api/students/45";
+		return "/login";
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
