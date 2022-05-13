@@ -58,7 +58,7 @@ public class LoginAPI {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/login")
 	public RedirectView getLogin() {
-		return new RedirectView("/");
+		return new RedirectView("/api/students/45");
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
