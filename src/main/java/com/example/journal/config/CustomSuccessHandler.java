@@ -2,6 +2,7 @@ package com.example.journal.config;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.example.journal.entities.Student;
+import com.example.journal.entities.Teacher;
 import com.example.journal.repositories.StudentRepository;
+import com.example.journal.repositories.TeacherRepository;
 
 @Component
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
@@ -24,30 +27,38 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 	private RolesRepository rolesRepository;
 	private UsersRepository usersRepository;
 	private StudentRepository studentRepository;
+	private TeacherRepository teacherRepository;
 	@Autowired
-	public CustomSuccessHandler(RolesRepository rolesRepository, UsersRepository usersRepository,StudentRepository studentRepository) {
+	public CustomSuccessHandler(RolesRepository rolesRepository, UsersRepository usersRepository,
+			StudentRepository studentRepository,TeacherRepository teacherRepository) {
 		this.rolesRepository = rolesRepository;
 		this.studentRepository = studentRepository;
 		this.usersRepository = usersRepository;
+		this.teacherRepository = teacherRepository;
 	}
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-
-		String redirectUrl = "";
+		
+		String redirectUrl = null;
 
 		Long loggedUserId = ((MyUserPrincipal)authentication.getPrincipal()).getUser().getId();
 		Student student = studentRepository.findStudentByUser(loggedUserId);
 		if(student != null) {
-			redirectUrl = "api/students/"+student.getId();
+			redirectUrl = "/api/students/"+student.getId();
 		}
+		
+		Teacher teacher = teacherRepository.findTeacherByUserId(loggedUserId);
+		if(teacher != null) {
+			redirectUrl = "api/teachers/"+teacher.getId();
+		}
+
 		System.out.println("redirectUrl " + redirectUrl);
 		if (redirectUrl == null) {
 			throw new IllegalStateException();
 		}
 		
-		response.addHeader("url", redirectUrl);
 		new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
 	}
 }

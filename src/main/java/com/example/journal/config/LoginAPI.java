@@ -24,7 +24,6 @@ import com.example.journal.repositories.StudentRepository;
 import com.example.journal.repositories.TeacherRepository;
 
 @RestController
-@CrossOrigin(origins =  "*")
 public class LoginAPI {
 	
 	private final UsersRepository usersRepository;
@@ -58,9 +57,10 @@ public class LoginAPI {
 	}
 	
 	@GetMapping("/login")
-	public String getLogin() {
-		return "loginSuccessHandler";
+	public RedirectView getLogin() {
+		return new RedirectView("/");
 	}
+	
 	@PostMapping("/login")
 	public String postLogin(Model model, HttpSession httpSession)
 	{

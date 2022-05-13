@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.example.journal.entities.Student;
 import com.example.journal.entities.Subject;
 import com.example.journal.entities.Teacher;
 
@@ -42,5 +43,8 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long>{
 			+ "AND u.id = t.userId")
 	String findEmailById(Long teacherId);
 	
+	@Query("SELECT t FROM Teacher t "
+			+ "WHERE t.userId = ?1")
+	Teacher findTeacherByUserId(Long userId);
 	
 }
