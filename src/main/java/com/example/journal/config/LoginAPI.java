@@ -64,7 +64,7 @@ public class LoginAPI {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/login")
-	public Authentication postLogin(Model model, HttpSession httpSession)
+	public String postLogin(Model model, HttpSession httpSession)
 	{
 		System.out.println("AAAAAAAAAAAAAa");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -75,10 +75,7 @@ public class LoginAPI {
 	    model.addAttribute("currentUser", loggedInUser.getEmail());
 	    httpSession.setAttribute("userId", loggedInUser.getId());
 	    System.out.println((authentication.getPrincipal()).getClass());
-	    
-	    
-	    
-	    return authentication;
+	    return loginSuccessHandler(loggedInUser.getId());
 	}
 	
 	
