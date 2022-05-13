@@ -57,9 +57,9 @@ public class LoginAPI {
 	}
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/login")
-	public RedirectView getLogin() {
+	public String getLogin() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return new RedirectView(loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId()));
+		return loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId());
         
 	}
 	
