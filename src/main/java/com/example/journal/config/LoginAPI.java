@@ -38,7 +38,7 @@ public class LoginAPI {
 		this.studentRepository = studentRepository;
 		this.teacherRepository = teacherRepository;
 	}
-	
+	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping("/")
     public RedirectView index(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -55,12 +55,13 @@ public class LoginAPI {
 		}
 		return "login";
 	}
-	
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/login")
 	public RedirectView getLogin() {
 		return new RedirectView("/");
 	}
 	
+	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/login")
 	public String postLogin(Model model, HttpSession httpSession)
 	{
