@@ -51,15 +51,16 @@ public class LoginAPI {
 	private String loginSuccessHandler(Long loggedUserId) {
 		Student student = studentRepository.findStudentByUser(loggedUserId);
 		if(student != null) {
-			return "api/students/"+student.getId();
+			return "/api/students/"+student.getId();
 		}
-		return "login";
+		return "/login";
 	}
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/login")
 	public String getLogin() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId());
+		
         
 	}
 	
