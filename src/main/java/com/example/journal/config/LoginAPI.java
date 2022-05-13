@@ -43,6 +43,7 @@ public class LoginAPI {
     public RedirectView index(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken))
+        	
             return new RedirectView(loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId()));;
         return new RedirectView("login");
     }
@@ -51,17 +52,14 @@ public class LoginAPI {
 	private String loginSuccessHandler(Long loggedUserId) {
 		Student student = studentRepository.findStudentByUser(loggedUserId);
 		if(student != null) {
-			return "/api/students/"+student.getId();
+			return "api/students/"+student.getId();
 		}
-		return "/login";
+		return "login";
 	}
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/login")
 	public String getLogin() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId());
-		
-        
+		return "/";
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -76,7 +74,7 @@ public class LoginAPI {
 	    model.addAttribute("currentUserId", loggedInUser.getId());
 	    model.addAttribute("currentUser", loggedInUser.getEmail());
 	    httpSession.setAttribute("userId", loggedInUser.getId());
-	    System.out.println("loggedInUser.getEmail()");
+	    System.out.println((authentication.getPrincipal()).getClass());
 	    return loginSuccessHandler(loggedInUser.getId());
 	}
 	
