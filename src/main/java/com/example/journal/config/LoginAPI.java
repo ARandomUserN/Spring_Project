@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -36,6 +40,9 @@ public class LoginAPI {
 	private final CaretakerRepository caretakerRepository;
 	
 	@Autowired
+	AuthenticationManager authenticationManager;
+	
+	@Autowired
 	public LoginAPI(UsersRepository usersRepository,CaretakerRepository caretakerRepository, TeacherRepository teacherRepository,StudentRepository studentRepository) {
 		this.usersRepository = usersRepository;
 		this.caretakerRepository = caretakerRepository;
@@ -51,15 +58,31 @@ public class LoginAPI {
             return new RedirectView(loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId()));;
         return new RedirectView("login/error");
     }
-	
+
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/login")
-	public AuthenticationBean helloWorldBean() {
-        //throw new RuntimeException("Some Error has Happened! Contact Support at ***-***");
-        return new AuthenticationBean("Ok");
+	public void helloWorldBean() {
+
     }
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public Authentication login(@RequestBody ObjectNode JSONObject) {
+		String username = JSONObject.get("username").asText();
+		String pwd = JSONObject.get("password").asText();
+		System.out.println("AUTH");
+	    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, pwd));
+	    boolean isAuthenticated = isAuthenticated(authentication);
+	    if (isAuthenticated) {
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+	    }
+	    return authentication;
+	}
+
+	private boolean isAuthenticated(Authentication authentication) {
+	    return authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+	}
 	
-		
 	private String loginSuccessHandler(Long loggedUserId) {
 		
 		Student student = studentRepository.findStudentByUser(loggedUserId);

@@ -1,24 +1,18 @@
 package com.example.journal.config;
 
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -50,6 +44,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		};
 	}
 	
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 	@Bean 
 	public PasswordEncoder passwordEncoder() { 
 	    return new BCryptPasswordEncoder(); 
@@ -91,9 +89,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          		.antMatchers("/login").anonymous()
 		        .antMatchers("/login").permitAll()
 		        .and()
-//				    .formLogin()
-//				    .defaultSuccessUrl("/success")
-//				    .and()
+				    .formLogin()
+//				    .loginPage("/login").permitAll()
+//				    .loginProcessingUrl("/login").permitAll()
+				    .defaultSuccessUrl("/success")
+				    .and()
 		        .logout().and()
 		                .httpBasic()
     	 ;
