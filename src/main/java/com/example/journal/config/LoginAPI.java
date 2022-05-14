@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
@@ -22,6 +23,7 @@ import com.example.journal.entities.Student;
 import com.example.journal.repositories.CaretakerRepository;
 import com.example.journal.repositories.StudentRepository;
 import com.example.journal.repositories.TeacherRepository;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
 public class LoginAPI {
@@ -39,45 +41,31 @@ public class LoginAPI {
 		this.teacherRepository = teacherRepository;
 	}
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping("/")
-    public RedirectView index(Model model) {
+	@GetMapping("/success")
+    public RedirectView index() {
+		System.out.println("SSSSS");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken))
-        	
             return new RedirectView(loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId()));;
-        return new RedirectView("login");
+        return new RedirectView("login/error");
     }
 	
 		
 	private String loginSuccessHandler(Long loggedUserId) {
+		
 		Student student = studentRepository.findStudentByUser(loggedUserId);
+		System.out.println(student);
 		if(student != null) {
 			return "api/students/"+student.getId();
 		}
-		return "login";
+		return "login/error";
 	}
-//	@CrossOrigin(origins = "http://localhost:3000")
-//	@GetMapping("/login")
-//	public String getLogin() {
-//		return "/";
-//	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
-	@PostMapping("/login")
-	public String postLogin(Model model, HttpSession httpSession)
-	{
-			
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		validatePrinciple(authentication.getPrincipal());
-	    User loggedInUser = ((MyUserPrincipal)authentication.getPrincipal()).getUser();
-	    System.out.println(loggedInUser.getEmail());
-	    model.addAttribute("currentUserId", loggedInUser.getId());
-	    model.addAttribute("currentUser", loggedInUser.getEmail());
-	    httpSession.setAttribute("userId", loggedInUser.getId());
-	    System.out.println((authentication.getPrincipal()).getClass());
-	    return loginSuccessHandler(loggedInUser.getId());
-	}
-	
+	@GetMapping("/login/error")
+    public String failLogin() {
+        return "Failed";
+    }
 	
 	private void validatePrinciple(Object principal) {
         if (!(principal instanceof UserPrincipal)) {

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -42,8 +43,8 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		
 		String redirectUrl = null;
-
-		Long loggedUserId = ((MyUserPrincipal)authentication.getPrincipal()).getUser().getId();
+		User user = (User)((MyUserPrincipal)authentication.getPrincipal()).getUser();
+		Long loggedUserId = user.getId();
 		Student student = studentRepository.findStudentByUser(loggedUserId);
 		if(student != null) {
 			redirectUrl = "/api/students/"+student.getId();
@@ -58,7 +59,9 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 		if (redirectUrl == null) {
 			throw new IllegalStateException();
 		}
-		
+		HttpSession session = request.getSession();
+		session.setAttribute("username", user.getEmail());
+		response.setStatus(HttpServletResponse.SC_OK);
 		new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
 	}
 }
