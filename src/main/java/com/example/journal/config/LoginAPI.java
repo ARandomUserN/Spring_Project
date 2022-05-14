@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.example.journal.entities.Caretaker;
 import com.example.journal.entities.Student;
+import com.example.journal.entities.Teacher;
 import com.example.journal.repositories.CaretakerRepository;
 import com.example.journal.repositories.StudentRepository;
 import com.example.journal.repositories.TeacherRepository;
@@ -58,6 +60,19 @@ public class LoginAPI {
 		if(student != null) {
 			return "api/students/"+student.getId();
 		}
+		
+		Teacher teacher = teacherRepository.findTeacherByUserId(loggedUserId);
+		System.out.println(teacher);
+		if(teacher != null) {
+			return "api/teachers/"+teacher.getId();
+		}
+		
+		Caretaker caretaker = caretakerRepository.findCaretakerByUserId(loggedUserId);
+		System.out.println(caretaker);
+		if(caretaker != null) {
+			return "api/caretakers/"+caretaker.getId();
+		}
+		
 		return "login/error";
 	}
 	
