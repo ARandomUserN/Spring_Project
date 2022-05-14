@@ -91,9 +91,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          		.antMatchers("/login").anonymous()
 		        .antMatchers("/login").permitAll()
 		        .and()
-				    .formLogin()
-				    .defaultSuccessUrl("/success")
-				    .and()
+//				    .formLogin()
+//				    .defaultSuccessUrl("/success")
+//				    .and()
+		        .logout().and()
 		                .httpBasic()
     	 ;
     }

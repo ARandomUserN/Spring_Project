@@ -52,6 +52,13 @@ public class LoginAPI {
         return new RedirectView("login/error");
     }
 	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping("/login")
+	public AuthenticationBean helloWorldBean() {
+        //throw new RuntimeException("Some Error has Happened! Contact Support at ***-***");
+        return new AuthenticationBean("Ok");
+    }
+	
 		
 	private String loginSuccessHandler(Long loggedUserId) {
 		
@@ -90,8 +97,8 @@ public class LoginAPI {
 
 	
 	@GetMapping("/logout")
-	public String logout(HttpSession session) {
+	public RedirectView logout(HttpSession session) {
 		session.removeAttribute("username");
-		return "redirect:../account";
+		return new RedirectView("/login");
 	}
 }
