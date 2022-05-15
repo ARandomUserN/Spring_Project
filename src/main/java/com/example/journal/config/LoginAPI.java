@@ -68,10 +68,14 @@ public class LoginAPI {
         
     }
 
+
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/login")
 	public java.util.Map<String, String> getLogin(@RequestBody ObjectNode JSONObject)
 	{
+		if(JSONObject == null || JSONObject.get("username") == null) {
+			return null;
+		}
 		String username = JSONObject.get("username").asText();
 		String pwd = JSONObject.get("password").asText();
 
@@ -83,19 +87,19 @@ public class LoginAPI {
 	    return  Collections.singletonMap("href" ,loginSuccessHandler(((MyUserPrincipal)authentication.getPrincipal()).getUser().getId()));
 	}
 
-//	@CrossOrigin(origins = "http://localhost:3000")
-//	@RequestMapping(value = "/login", method = RequestMethod.POST)
-//	public Authentication login(@RequestBody ObjectNode JSONObject) {
-//		String username = JSONObject.get("username").asText();
-//		String pwd = JSONObject.get("password").asText();
-//
-//	    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, pwd));
-//	    boolean isAuthenticated = isAuthenticated(authentication);
-//	    if (isAuthenticated) {
-//	        SecurityContextHolder.getContext().setAuthentication(authentication);
-//	    }
-//	    return authentication;
-//	}
+	@CrossOrigin(origins = "http://localhost:3000")
+	@PostMapping("/login")
+	public Authentication login(@RequestBody ObjectNode JSONObject) {
+		String username = JSONObject.get("username").asText();
+		String pwd = JSONObject.get("password").asText();
+
+	    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, pwd));
+	    boolean isAuthenticated = isAuthenticated(authentication);
+	    if (isAuthenticated) {
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+	    }
+	    return authentication;
+	}
 
 	private boolean isAuthenticated(Authentication authentication) {
 	    return authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
