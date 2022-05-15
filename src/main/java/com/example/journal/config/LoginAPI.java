@@ -59,18 +59,14 @@ public class LoginAPI {
         return new RedirectView("login/error");
     }
 
-	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping("/login")
-	public void helloWorldBean() {
 
-    }
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Authentication login(@RequestBody ObjectNode JSONObject) {
 		String username = JSONObject.get("username").asText();
 		String pwd = JSONObject.get("password").asText();
-		System.out.println("AUTH");
+
 	    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, pwd));
 	    boolean isAuthenticated = isAuthenticated(authentication);
 	    if (isAuthenticated) {
