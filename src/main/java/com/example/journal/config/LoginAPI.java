@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,9 +74,7 @@ public class LoginAPI {
 	@GetMapping("/login")
 	public java.util.Map<String, String> getLogin(@RequestBody ObjectNode JSONObject)
 	{
-		if(JSONObject == null || JSONObject.get("username") == null) {
-			return null;
-		}
+
 		String username = JSONObject.get("username").asText();
 		String pwd = JSONObject.get("password").asText();
 
@@ -88,8 +87,8 @@ public class LoginAPI {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@PostMapping("/login")
-	public Authentication login(@RequestBody ObjectNode JSONObject) {
+	@PutMapping("/login")
+	public java.util.Map<String, String>login(@RequestBody ObjectNode JSONObject) {
 		String username = JSONObject.get("username").asText();
 		String pwd = JSONObject.get("password").asText();
 
@@ -98,7 +97,7 @@ public class LoginAPI {
 	    if (isAuthenticated) {
 	        SecurityContextHolder.getContext().setAuthentication(authentication);
 	    }
-	    return authentication;
+	    return Collections.singletonMap("href" ,loginSuccessHandler(((MyUserPrincipal)authentication.getPrincipal()).getUser().getId()));
 	}
 
 	private boolean isAuthenticated(Authentication authentication) {
