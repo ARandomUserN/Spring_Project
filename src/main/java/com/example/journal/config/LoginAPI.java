@@ -60,10 +60,10 @@ public class LoginAPI {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken))
 	    {
-    		System.out.println("ok");
+//    		System.out.println("ok");
             return Collections.singletonMap("href" ,loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId()));
         }
-        System.out.println("not");
+//        System.out.println("not");
         return Collections.singletonMap("href" ,"/login/error");
         
     }
