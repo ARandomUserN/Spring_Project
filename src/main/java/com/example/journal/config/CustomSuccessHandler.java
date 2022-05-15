@@ -59,9 +59,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 		if (redirectUrl == null) {
 			throw new IllegalStateException();
 		}
-		HttpSession session = request.getSession();
-		session.setAttribute("username", user.getEmail());
-		response.setStatus(HttpServletResponse.SC_OK);
+
 		new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
 	}
 }

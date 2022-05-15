@@ -1,11 +1,14 @@
 package com.example.journal.config;
 
 import java.nio.file.attribute.UserPrincipal;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,21 +52,26 @@ public class LoginAPI {
 		this.studentRepository = studentRepository;
 		this.teacherRepository = teacherRepository;
 	}
+	
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping("/success")
-    public RedirectView index() {
-		System.out.println("SSSSS");
+	@GetMapping(value = "/success" ,produces = MediaType.APPLICATION_JSON_VALUE)
+    public java.util.Map<String, String> index() {
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken))
-            return new RedirectView(loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId()));;
-        return new RedirectView("login/error");
+	    {
+    		System.out.println("ok");
+            return Collections.singletonMap("href" ,loginSuccessHandler(((MyUserPrincipal)auth.getPrincipal()).getUser().getId()));
+        }
+        System.out.println("not");
+        return Collections.singletonMap("href" ,"/login/error");
+        
     }
 
-
-
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Authentication login(@RequestBody ObjectNode JSONObject) {
+	@GetMapping("/login")
+	public java.util.Map<String, String> getLogin(@RequestBody ObjectNode JSONObject)
+	{
 		String username = JSONObject.get("username").asText();
 		String pwd = JSONObject.get("password").asText();
 
@@ -72,8 +80,22 @@ public class LoginAPI {
 	    if (isAuthenticated) {
 	        SecurityContextHolder.getContext().setAuthentication(authentication);
 	    }
-	    return authentication;
+	    return  Collections.singletonMap("href" ,loginSuccessHandler(((MyUserPrincipal)authentication.getPrincipal()).getUser().getId()));
 	}
+
+//	@CrossOrigin(origins = "http://localhost:3000")
+//	@RequestMapping(value = "/login", method = RequestMethod.POST)
+//	public Authentication login(@RequestBody ObjectNode JSONObject) {
+//		String username = JSONObject.get("username").asText();
+//		String pwd = JSONObject.get("password").asText();
+//
+//	    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, pwd));
+//	    boolean isAuthenticated = isAuthenticated(authentication);
+//	    if (isAuthenticated) {
+//	        SecurityContextHolder.getContext().setAuthentication(authentication);
+//	    }
+//	    return authentication;
+//	}
 
 	private boolean isAuthenticated(Authentication authentication) {
 	    return authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
@@ -84,22 +106,22 @@ public class LoginAPI {
 		Student student = studentRepository.findStudentByUser(loggedUserId);
 		System.out.println(student);
 		if(student != null) {
-			return "api/students/"+student.getId();
+			return "/api/students/"+student.getId();
 		}
 		
 		Teacher teacher = teacherRepository.findTeacherByUserId(loggedUserId);
 		System.out.println(teacher);
 		if(teacher != null) {
-			return "api/teachers/"+teacher.getId();
+			return "/api/teachers/"+teacher.getId();
 		}
 		
 		Caretaker caretaker = caretakerRepository.findCaretakerByUserId(loggedUserId);
 		System.out.println(caretaker);
 		if(caretaker != null) {
-			return "api/caretakers/"+caretaker.getId();
+			return "/api/caretakers/"+caretaker.getId();
 		}
 		
-		return "login/error";
+		return "/login/error";
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
