@@ -33,6 +33,7 @@ import com.example.journal.dto.StudentRemarksDTO;
 import com.example.journal.entities.Caretaker;
 import com.example.journal.entities.Classyear;
 import com.example.journal.entities.Student;
+import com.example.journal.entities.Subject;
 import com.example.journal.services.ClassyearManager;
 import com.example.journal.services.StudentManager;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -139,6 +140,19 @@ public class StudentAPI {
 			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
 		}
 		
+	}
+	
+	@GetMapping("/{studentId}/subjects")
+	public List<Subject> getSubjects(@PathVariable("studentId") Long studentId){
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		StudentDTO dto =  studentManager.findById(studentId);
+		if(accessPrivilegeCheck(dto.email(), auth)) {
+			return studentManager.findSubjects(studentId);
+		}
+		else
+		{
+			throw new  ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 	}
 	
 	@GetMapping("/id/marks")

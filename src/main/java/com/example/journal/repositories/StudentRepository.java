@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.journal.entities.Student;
+import com.example.journal.entities.Subject;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
@@ -24,7 +25,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	@Query("SELECT s from Student s WHERE s.classyearId=?1")
 	List<Student> findAllByClass(Long id);
 	
-	@Query("SELECT st,su,mk,tc FROM Student st, Subject su, Mark mk, Teacher tc, CTSMtM c "
+	@Query("SELECT DISTINCT st,su,mk,tc FROM Student st, Subject su, Mark mk, Teacher tc, CTSMtM c "
 			+ "WHERE st.id = ?1 "
 			+ "AND mk.studentId = st.id "
 			+ "AND mk.subjectId = c.subjectId "
@@ -33,7 +34,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	List<Object[]> findStudentMarks(Long studentId);
 
 	
-	@Query("SELECT st,su,rm,tc FROM Student st, Subject su, Remark rm, Teacher tc, CTSMtM c "
+	@Query("SELECT DISTINCT st,su,rm,tc FROM Student st, Subject su, Remark rm, Teacher tc, CTSMtM c "
 			+ "WHERE st.id = ?1 "
 			+ "AND rm.studentId = st.id "
 			+ "AND rm.subjectId = c.subjectId "
@@ -49,5 +50,13 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	@Query("SELECT s FROM Student s "
 			+ "WHERE s.userId = ?1")
 	Student findStudentByUser(Long userId);
+
+	@Query("SELECT su FROM Subject su, Student st, Classyear cy, CTSMtM c "
+			+ "WHERE st.id = ?1 "
+			+ "AND c.classyearId = cy.id "
+			+ "AND c.subjectId = su.id "
+			+ "AND st.classyearId = cy.id")
+	
+	List<Subject> findSubjects(Long studentId);
 
 }

@@ -72,12 +72,19 @@ public class StudentManager {
 		return dto;
 	}
 	
+	public List<Subject> findSubjects(Long studentId) {
+		List<Subject> list = studentRepository.findSubjects(studentId);
+		return list;
+	}
+	
 	public List<StudentMarksDTO> findStudentMarks(Long studentId){
 		List<Object[]> list = studentRepository.findStudentMarks(studentId);
+		
 		String email = studentRepository.findEmailById(studentId);
 		List<StudentMarksDTO> markList = new ArrayList<StudentMarksDTO>();
 		for(int i = 0; i < list.size();i++)
 		{
+			System.out.println(list.get(i));
 			markList.add(mapMarks((Student)list.get(i)[0], (Subject)list.get(i)[1], (Mark)list.get(i)[2], (Teacher)list.get(i)[3], email));
 		}
 		return markList;

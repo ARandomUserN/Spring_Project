@@ -28,7 +28,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long>{
 	List<Object[]> findClassyearsBySubject(Long teacherId, Long subjectId);
 
 	// lista uczniów w klasie w danym przedmiocie (uczen, oceny)
-	@Query("SELECT st, su, mk FROM Student st, Mark mk, Subject su, Teacher tc, CTSMtM c "
+	@Query("SELECT DISTINCT st, su, mk FROM Student st, Mark mk, Subject su, Teacher tc, CTSMtM c "
 			+ "WHERE tc.id = ?1 "
 			+ "AND su.id = ?2 "
 			+ "AND st.classyearId = ?3 "

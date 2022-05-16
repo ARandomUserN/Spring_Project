@@ -61,6 +61,7 @@ public class TeacherManager {
 		List<Object[]> list = teacherRepository.findClassyearsBySubject(teacherId, subjectId);
 		List<SubjectDTO> listDTO = new ArrayList<SubjectDTO>();
 		for(int i =0; i< list.size();i++) {
+			System.out.println(list.get(i));
 			listDTO.add(mapSubject((Subject)list.get(i)[0], (Classyear)list.get(i)[1],
 					(Teacher)list.get(i)[2]));
 		}
