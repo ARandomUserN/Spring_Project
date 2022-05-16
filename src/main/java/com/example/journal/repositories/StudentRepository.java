@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.example.journal.dto.SubjectDTO;
 import com.example.journal.entities.Student;
 import com.example.journal.entities.Subject;
 
@@ -51,12 +52,13 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 			+ "WHERE s.userId = ?1")
 	Student findStudentByUser(Long userId);
 
-	@Query("SELECT su FROM Subject su, Student st, Classyear cy, CTSMtM c "
+	@Query("SELECT su,tc FROM Subject su, Student st, Classyear cy, Teacher tc, CTSMtM c "
 			+ "WHERE st.id = ?1 "
 			+ "AND c.classyearId = cy.id "
 			+ "AND c.subjectId = su.id "
-			+ "AND st.classyearId = cy.id")
+			+ "AND st.classyearId = cy.id "
+			+ "AND c.teacherId = tc.id")
 	
-	List<Subject> findSubjects(Long studentId);
+	List<Object[]> findSubjects(Long studentId);
 
 }

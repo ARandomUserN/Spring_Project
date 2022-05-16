@@ -17,6 +17,7 @@ import com.example.journal.config.UsersRepository;
 import com.example.journal.dto.StudentDTO;
 import com.example.journal.dto.StudentMarksDTO;
 import com.example.journal.dto.StudentRemarksDTO;
+import com.example.journal.dto.SubjectDTO;
 import com.example.journal.entities.Caretaker;
 import com.example.journal.entities.Classyear;
 import com.example.journal.entities.Mark;
@@ -72,9 +73,21 @@ public class StudentManager {
 		return dto;
 	}
 	
-	public List<Subject> findSubjects(Long studentId) {
-		List<Subject> list = studentRepository.findSubjects(studentId);
-		return list;
+	public SubjectDTO mapSubjects(Subject subject, Teacher teacher) {
+		SubjectDTO dto = new SubjectDTO(subject, teacher);
+		return dto;
+	}
+	
+	public List<SubjectDTO> findSubjects(Long studentId) {
+		List<Object[]> list = studentRepository.findSubjects(studentId);
+		List<SubjectDTO> dtoList = new ArrayList<SubjectDTO>();
+		for(int i = 0; i < list.size();i++)
+		{
+			System.out.println(list.get(i));
+			dtoList.add(mapSubjects((Subject)list.get(i)[0], (Teacher)list.get(i)[1]));
+		}
+		
+		return dtoList;
 	}
 	
 	public List<StudentMarksDTO> findStudentMarks(Long studentId){

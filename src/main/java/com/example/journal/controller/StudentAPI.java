@@ -30,6 +30,7 @@ import com.example.journal.config.RolesRepository;
 import com.example.journal.dto.StudentDTO;
 import com.example.journal.dto.StudentMarksDTO;
 import com.example.journal.dto.StudentRemarksDTO;
+import com.example.journal.dto.SubjectDTO;
 import com.example.journal.entities.Caretaker;
 import com.example.journal.entities.Classyear;
 import com.example.journal.entities.Student;
@@ -143,7 +144,7 @@ public class StudentAPI {
 	}
 	
 	@GetMapping("/{studentId}/subjects")
-	public List<Subject> getSubjects(@PathVariable("studentId") Long studentId){
+	public List<SubjectDTO> getSubjects(@PathVariable("studentId") Long studentId){
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		StudentDTO dto =  studentManager.findById(studentId);
 		if(accessPrivilegeCheck(dto.email(), auth)) {
