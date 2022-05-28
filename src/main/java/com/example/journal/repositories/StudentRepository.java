@@ -52,7 +52,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 			+ "WHERE s.userId = ?1")
 	Student findStudentByUser(Long userId);
 
-	@Query("SELECT su,tc FROM Subject su, Student st, Classyear cy, Teacher tc, CTSMtM c "
+	@Query("SELECT su,cy,tc FROM Subject su, Student st, Classyear cy, Teacher tc, CTSMtM c "
 			+ "WHERE st.id = ?1 "
 			+ "AND c.classyearId = cy.id "
 			+ "AND c.subjectId = su.id "
