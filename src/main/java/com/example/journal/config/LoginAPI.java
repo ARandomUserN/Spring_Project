@@ -141,8 +141,9 @@ public class LoginAPI {
 
 	
 	@GetMapping("/logout")
-	public RedirectView logout(HttpSession session) {
-		session.removeAttribute("username");
-		return new RedirectView("/login");
+	public String logout() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		authentication.setAuthenticated(false);
+		return "/login";
 	}
 }
