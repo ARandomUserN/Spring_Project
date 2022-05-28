@@ -34,7 +34,7 @@ public class TeacherManager {
 	}
 	
 	public SubjectDTO mapSubject(Subject subject, Classyear classyear, Teacher teacher) {
-		SubjectDTO dto = new SubjectDTO(subject, teacher);
+		SubjectDTO dto = new SubjectDTO(subject, classyear,teacher);
 		return dto;
 	}
 	
