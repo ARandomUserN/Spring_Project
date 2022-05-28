@@ -94,9 +94,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //				    .loginProcessingUrl("/login").permitAll()
 				    .defaultSuccessUrl("/success", true)
 				    .and()
-				    .logout().and()
-				    
-		        .logout().and()
+//		        .logout().invalidateHttpSession(true)
+//		        .deleteCookies("JSESSIONID").and()
 		                .httpBasic()
     	 ;
     }

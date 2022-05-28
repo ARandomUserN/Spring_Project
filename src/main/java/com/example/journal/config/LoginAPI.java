@@ -130,12 +130,12 @@ public class LoginAPI {
         }
 	}
 
-	
-//	@PutMapping("/logout")
-//	public String logout() {
-//		System.out.println("ASDSAD");
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		authentication.setAuthenticated(false);
-//		return "/login";
-//	}
+	@CrossOrigin(origins = "http://localhost:3000")
+	@PutMapping("/logout")
+	public String logout() {
+		System.out.println("ASDSAD");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		authentication.setAuthenticated(false);
+		return "OK";
+	}
 }
