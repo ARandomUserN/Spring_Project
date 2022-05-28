@@ -73,8 +73,8 @@ public class StudentManager {
 		return dto;
 	}
 	
-	public SubjectDTO mapSubjects(Subject subject, Teacher teacher) {
-		SubjectDTO dto = new SubjectDTO(subject, teacher);
+	public SubjectDTO mapSubjects(Subject subject, Classyear classyear, Teacher teacher) {
+		SubjectDTO dto = new SubjectDTO(subject, classyear, teacher);
 		return dto;
 	}
 	
@@ -84,7 +84,7 @@ public class StudentManager {
 		for(int i = 0; i < list.size();i++)
 		{
 			System.out.println(list.get(i));
-			dtoList.add(mapSubjects((Subject)list.get(i)[0], (Teacher)list.get(i)[1]));
+			dtoList.add(mapSubjects((Subject)list.get(i)[0],(Classyear)list.get(i)[1], (Teacher)list.get(i)[2]));
 		}
 		
 		return dtoList;
