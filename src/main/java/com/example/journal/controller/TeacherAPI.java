@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.journal.dto.StudentRemarksDTO;
 import com.example.journal.dto.SubjectClassStudentDTO;
 import com.example.journal.dto.SubjectDTO;
+import com.example.journal.dto.TeacherDTO;
 import com.example.journal.entities.Mark;
 import com.example.journal.entities.Teacher;
 import com.example.journal.services.TeacherManager;
@@ -46,11 +47,10 @@ public class TeacherAPI {
 	}
 	
 	@GetMapping("/id")
-	public Optional<Teacher> getById(@RequestParam Long index) {
+	public TeacherDTO getById(@RequestParam Long index) {
 		auth = SecurityContextHolder.getContext().getAuthentication();
-		Optional<Teacher> teacher = teacherManager.findById(index);
-		String email = teacherManager.findEmailById(index);
-		if(auth.getName().equals(email)) {
+		TeacherDTO teacher = teacherManager.findById(index);
+		if(auth.getName().equals(teacher.email())) {
 			return teacher;
 		}
 		else
@@ -59,11 +59,10 @@ public class TeacherAPI {
 		}
 	}
 	@GetMapping(value = "/{teacherId}")
-	public Optional<Teacher> getId(@PathVariable("teacherId") Long  teacherId) {
+	public TeacherDTO getId(@PathVariable("teacherId") Long  teacherId) {
 		auth = SecurityContextHolder.getContext().getAuthentication();
-		Optional<Teacher> teacher = teacherManager.findById(teacherId);
-		String email = teacherManager.findEmailById(teacherId);
-		if(auth.getName().equals(email)) {
+		TeacherDTO teacher = teacherManager.findById(teacherId);
+		if(auth.getName().equals(teacher.email())) {
 			return teacher;
 		}
 		else

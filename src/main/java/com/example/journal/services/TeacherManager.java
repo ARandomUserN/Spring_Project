@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.journal.dto.SubjectClassStudentDTO;
 import com.example.journal.dto.SubjectDTO;
+import com.example.journal.dto.TeacherDTO;
 import com.example.journal.entities.Classyear;
 import com.example.journal.entities.Mark;
 import com.example.journal.entities.Student;
@@ -35,6 +36,11 @@ public class TeacherManager {
 	
 	public SubjectDTO mapSubject(Subject subject, Classyear classyear, Teacher teacher) {
 		SubjectDTO dto = new SubjectDTO(subject, classyear,teacher);
+		return dto;
+	}
+	
+	public TeacherDTO mapTeacher(Teacher teacher, String email) {
+		TeacherDTO dto = new TeacherDTO(teacher,email);
 		return dto;
 	}
 	
@@ -100,8 +106,11 @@ public class TeacherManager {
 		markRepository.save(mark);
 	}
 
-	public Optional<Teacher> findById(Long id) {
-		return teacherRepository.findById(id);
+	public TeacherDTO findById(Long id) {
+		Optional<Teacher> tc = teacherRepository.findById(id);
+		String email = teacherRepository.findEmailById(id);
+		TeacherDTO dto = mapTeacher(tc.get(), email);
+		return dto;
 	}
 
 	public Iterable<Teacher> findAll() {
