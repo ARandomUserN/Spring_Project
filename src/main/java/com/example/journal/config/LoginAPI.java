@@ -72,18 +72,9 @@ public class LoginAPI {
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/login")
-	public java.util.Map<String, String> getLogin(@RequestBody ObjectNode JSONObject)
+	public void getLogin()
 	{
 
-		String username = JSONObject.get("username").asText();
-		String pwd = JSONObject.get("password").asText();
-
-	    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, pwd));
-	    boolean isAuthenticated = isAuthenticated(authentication);
-	    if (isAuthenticated) {
-	        SecurityContextHolder.getContext().setAuthentication(authentication);
-	    }
-	    return  Collections.singletonMap("href" ,loginSuccessHandler(((MyUserPrincipal)authentication.getPrincipal()).getUser().getId()));
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -140,10 +131,11 @@ public class LoginAPI {
 	}
 
 	
-	@GetMapping("/logout")
-	public String logout() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		authentication.setAuthenticated(false);
-		return "/login";
-	}
+//	@PutMapping("/logout")
+//	public String logout() {
+//		System.out.println("ASDSAD");
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		authentication.setAuthenticated(false);
+//		return "/login";
+//	}
 }

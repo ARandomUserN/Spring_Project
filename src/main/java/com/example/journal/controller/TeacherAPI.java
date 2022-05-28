@@ -1,4 +1,4 @@
-package com.example.journal.controller;
+ package com.example.journal.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -144,9 +144,10 @@ public class TeacherAPI {
 	}
 	@GetMapping("/{teacherId}/subjects/{subjectId}/classes/{classyearId}")
 	public List<SubjectClassStudentDTO> getStudents(@PathVariable("teacherId") Long teacherId,@PathVariable("subjectId") Long subjectId,@PathVariable("classyearId") Long classyearId){
-
+		System.out.println("ASAS");
 		List<SubjectClassStudentDTO> subjectList = teacherManager.findStudentsByClassAndSubject(teacherId, subjectId, classyearId);
 		auth = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println(subjectList);
 		String email = teacherManager.findEmailById(teacherId);
 		if(auth.getName().equals(email)) {
 			return subjectList;
