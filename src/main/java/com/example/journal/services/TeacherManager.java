@@ -44,8 +44,8 @@ public class TeacherManager {
 		return dto;
 	}
 	
-	public SubjectClassStudentDTO mapStudent(Student student, Subject subject, Mark mark) {
-		SubjectClassStudentDTO classStudentDTO = new SubjectClassStudentDTO(student, subject, mark);
+	public SubjectClassStudentDTO mapStudent(Student student, List<Mark> mark) {
+		SubjectClassStudentDTO classStudentDTO = new SubjectClassStudentDTO(student, mark);
 		return classStudentDTO;
 	}
 	
@@ -67,7 +67,7 @@ public class TeacherManager {
 		List<Object[]> list = teacherRepository.findClassyearsBySubject(teacherId, subjectId);
 		List<SubjectDTO> listDTO = new ArrayList<SubjectDTO>();
 		for(int i =0; i< list.size();i++) {
-			System.out.println(list.get(i));
+			
 			listDTO.add(mapSubject((Subject)list.get(i)[0], (Classyear)list.get(i)[1],
 					(Teacher)list.get(i)[2]));
 		}
@@ -81,7 +81,9 @@ public class TeacherManager {
 		List<Object[]> list = teacherRepository.findStudentsByClassAndSubject(teacherId, subjectId, classyearId);
 		List<SubjectClassStudentDTO> listDTO = new ArrayList<SubjectClassStudentDTO>();
 		for(int i =0; i < list.size();i++) {
-			listDTO.add(mapStudent((Student)list.get(i)[0], (Subject)list.get(i)[1], (Mark)list.get(i)[2]));
+			Student tmp = (Student)list.get(i)[0];
+			List<Mark> marks = teacherRepository.findStudentMarksBySubject(tmp.getId(), subjectId);
+			listDTO.add(mapStudent((Student)list.get(i)[0], marks));
 		}
 		return listDTO;
 	}
