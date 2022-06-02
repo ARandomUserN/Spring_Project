@@ -179,8 +179,18 @@ public class RunAtStart {
 		User u22 = new User( "JaroslawB@wp.pl", "pwd", r1.getId());
 		usersRepository.save(u22);
 		Student s10 = new Student("Jarosław", "Bąk", "6357498754", c4.getId(), y2.getId(), u22.getId());
-//		Student s11 = new Student("Kordian", "Ostrowski", "321862184", "KordianO@wp.pl", "pwd", c2.getId(), y2.getId(), r1.getId());
-//		Student s12 = new Student("Krystian", "Lewandowski", "460385021", "KrystianL@wp.pl", "pwd", c5.getId(), y4.getId(), r1.getId());
+		User u99 = new User("KordianO@wp.pl", "pwd",r1.getId());
+		usersRepository.save(u99);
+		Student s11 = new Student("Kordian", "Ostrowski", "321862184", c3.getId(), y2.getId(), u99.getId());
+		studentRepository.save(s11);
+		
+		User u98 = new User("KrystianL@wp.pl", "pwd",r1.getId());
+		usersRepository.save(u98);
+		Student s12 = new Student("Krystian", "Lewandowski", "460385021", c5.getId(), y4.getId(), u98.getId());
+		studentRepository.save(s12);
+		
+		
+		
 //		Student s13 = new Student("Juliusz", "Czerwiński", "204245075", "JuliuszC@wp.pl", "pwd", c5.getId(), y2.getId(), r1.getId());
 //		Student s14 = new Student("Fryderyk", "Mazur", "988465198", "FryderykM@wp.pl", "pwd", c6.getId(), y3.getId(), r1.getId());
 //		Student s15 = new Student("Emil", "Witkowski", "687548974", "EmilW@wp.pl", "pwd", c6.getId(), y3.getId(), r1.getId());
@@ -509,10 +519,13 @@ public class RunAtStart {
 //		ctsMtMRepository.save(mtm84);
 //		
 
-		Mark m1 = new Mark(4.0, 1, su1.getId(), s1.getId(), "test");
-		Mark m2 = new Mark(3.0, 1, su1.getId(), s2.getId(), "test");
-		Mark m3 = new Mark(5.0, 1, su1.getId(), s3.getId(), "test");
-		Mark m4 = new Mark(2.0, 1, su1.getId(), s4.getId(), "test");
+		Mark m1 = new Mark(4.0, 4, su1.getId(), s1.getId(), "test");
+		Mark m2 = new Mark(3.0, 4, su1.getId(), s2.getId(), "test");
+		Mark m3 = new Mark(5.0, 4, su1.getId(), s3.getId(), "test");
+		Mark m4 = new Mark(2.0, 4, su1.getId(), s4.getId(), "test");
+		Mark m5 = new Mark(3.0, 4, su1.getId(), s5.getId(), "test");
+		Mark m6 = new Mark(3.5, 4, su1.getId(), s6.getId(), "test");
+		Mark m7 = new Mark(2.0, 4, su1.getId(), s7.getId(), "test");
 		
 		
 
@@ -520,14 +533,17 @@ public class RunAtStart {
 		markRepository.save(m2);
 		markRepository.save(m3);
 		markRepository.save(m4);
-		
-		Mark m5 = new Mark(2.0, 1, su2.getId(), s1.getId(), "tests2");
-		Mark m6 = new Mark(2.0, 1, su2.getId(), s2.getId(), "tests2");
-		Mark m7 = new Mark(2.0, 1, su2.getId(), s3.getId(), "tests2");
-
 		markRepository.save(m5);
 		markRepository.save(m6);
 		markRepository.save(m7);
+		
+		Mark m12 = new Mark(3.0, 3, su2.getId(), s1.getId(), "Praca domowa");
+		Mark m13 = new Mark(1.0, 3, su2.getId(), s2.getId(), "Praca domowa");
+		Mark m14 = new Mark(4.0, 3, su2.getId(), s3.getId(), "Praca domowa");
+
+		markRepository.save(m12);
+		markRepository.save(m13);
+		markRepository.save(m14);
 //		
 		Remark rk1 = new Remark("BBBBBBB", su2.getId(), s1.getId());
 		
