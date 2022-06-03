@@ -27,7 +27,7 @@ public class Caretaker {
 	private String firstName;
 	private String lastName;
 	private String phone;
-	private String email;
+	private long userId;
 	
 	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="caretakerId")
@@ -46,12 +46,12 @@ public class Caretaker {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Caretaker(String firstName, String lastName, String phone, String email) {
+	public Caretaker(String firstName, String lastName, String phone, long userId) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
-		this.email = email;
+		this.userId = userId;
 	}
 
 	public long getId() {
@@ -85,18 +85,10 @@ public class Caretaker {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 	
 	@Override
 	public String toString() {
 		return "Caretaker [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + "]";
+				+ "]";
 	}
 }

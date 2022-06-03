@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Student {
@@ -18,32 +19,33 @@ public class Student {
 	private String firstName;
 	private String lastName;
 	private String phone;
-	private String email;
 	private long caretakerId;
 	private long classyearId;
+	private long userId;
 	
+
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)	
 	@JoinColumn(name="studentId")
 	Set<Mark> marks;
 	
 	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)	
 	@JoinColumn(name="studentId")
-	Set<Remark> remark;
+	Set<Remark> remarks;
 
 	public Student() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Student(String firstName, String lastName, String phone, String email, long caretakerId,
-			long classyearId) {
+	public Student(String firstName, String lastName, String phone, long caretakerId,
+			long classyearId,long userId) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
-		this.email = email;
 		this.caretakerId = caretakerId;
 		this.classyearId = classyearId;
+		this.userId = userId;
 	}
 	
 	public String getFirstName() {
@@ -70,12 +72,12 @@ public class Student {
 		this.phone = phone;
 	}
 
-	public String getEmail() {
-		return email;
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public long getCaretakerId() {
@@ -98,10 +100,12 @@ public class Student {
 		return id;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + ", caretakerId=" + caretakerId + ", classyearId=" + classyearId
+				+ ", caretakerId=" + caretakerId + ", classyearId=" + classyearId
 				+ "]\n";
 	}
 }
